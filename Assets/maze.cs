@@ -15,6 +15,14 @@ public class MapLocation
 }
 public class Maze : MonoBehaviour
 {
+    //Za kretnje, lijevo, desno, gore, dolje
+    public List<MapLocation> directions = new List<MapLocation>() {
+        new MapLocation(1,0), //desno
+        new MapLocation(0,1), //gore
+        new MapLocation(-1,0), //lijevo
+        new MapLocation(0,-1) //dolje
+    };
+
     public int width = 30; //x length
     public int depth = 30; //z length
     public byte[,] map; //matrix

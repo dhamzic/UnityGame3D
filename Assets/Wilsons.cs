@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class Wilsons : Maze
 {
-    List<MapLocation> directions = new List<MapLocation>() {
-        new MapLocation(1,0),
-        new MapLocation(0,1),
-        new MapLocation(-1,0),
-        new MapLocation(0,-1)
-    };
+    
 
     //Koristi se za evidenciju blokova koji služe za početak novog puta labirinta. Svaki element liste
     //prestavlja element koji nema susjeda koji cini vec postojeci labirint. Ovo rijesava problem
