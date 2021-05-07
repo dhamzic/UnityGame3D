@@ -29,7 +29,7 @@ public class AnimController : MonoBehaviour
     }
     bool StartingPosition(string objectName)
     {
-        Debug.Log(objectName+" Z position: "+ GameObject.Find(objectName).transform.localPosition.z);
+        Debug.Log(objectName + " Z position: " + GameObject.Find(objectName).transform.localPosition.z);
         if (GameObject.Find(objectName).transform.localPosition.z >= 1.25)
         {
             return false;
@@ -43,6 +43,11 @@ public class AnimController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+
+    }
+
+    public void StartAnimation()
     {
         if (Input.GetKeyDown("1"))
         {
@@ -109,4 +114,72 @@ public class AnimController : MonoBehaviour
 
         }
     }
+    public void StartAnimation(string drawerName)
+    {
+        if (drawerName == "Drawer1")
+        {
+            if (
+                !AnimatorIsPlaying("Drawer4_Open")
+                &&
+                !AnimatorIsPlaying("Drawer2_Open")
+                &&
+                !AnimatorIsPlaying("Drawer3_Open")
+                &&
+                StartingPosition("Drawer1")
+                )
+            {
+                anim.Play("Drawer1_Open");
+            }
+
+        }
+        else if (drawerName == "Drawer2")
+        {
+            if (
+                !AnimatorIsPlaying("Drawer1_Open")
+                &&
+                !AnimatorIsPlaying("Drawer4_Open")
+                &&
+                !AnimatorIsPlaying("Drawer3_Open")
+                &&
+                StartingPosition("Drawer2")
+                )
+            {
+                anim.Play("Drawer2_Open");
+            }
+
+        }
+        else if (drawerName == "Drawer3")
+        {
+            if (
+                !AnimatorIsPlaying("Drawer1_Open")
+                &&
+                !AnimatorIsPlaying("Drawer2_Open")
+                &&
+                !AnimatorIsPlaying("Drawer4_Open")
+                &&
+                StartingPosition("Drawer3")
+                )
+            {
+                anim.Play("Drawer3_Open");
+            }
+
+        }
+        else if (drawerName == "Drawer4")
+        {
+            if (
+                !AnimatorIsPlaying("Drawer1_Open")
+                &&
+                !AnimatorIsPlaying("Drawer2_Open")
+                &&
+                !AnimatorIsPlaying("Drawer3_Open")
+                &&
+                StartingPosition("Drawer4")
+                )
+            {
+                anim.Play("Drawer4_Open");
+            }
+
+        }
+    }
+
 }

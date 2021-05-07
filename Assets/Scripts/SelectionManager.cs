@@ -8,6 +8,8 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] private Material highlightMaterial;
     [SerializeField] private Material defaultMaterial;
 
+    public AnimController animationScript;
+
     private Transform _selection;
 
     // Start is called before the first frame update
@@ -43,7 +45,12 @@ public class SelectionManager : MonoBehaviour
                         selectionRenderer.material = highlightMaterial;
                     }
                     _selection = selection;
-                    Debug.Log("Interakcija " + hit.distance + " m");
+                    Debug.Log("Interakcija " + hit.transform.name);
+                    if (Input.GetKeyDown("e"))
+                    {
+                        animationScript.StartAnimation(hit.transform.name);
+                    }
+
                 }
             }
         }
