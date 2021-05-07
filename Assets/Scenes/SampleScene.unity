@@ -214,8 +214,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectableTag: Selectable
-  highlightMaterial: {fileID: 0}
-  defaultMaterial: {fileID: 0}
+  highlightMaterial: {fileID: 2100000, guid: 05f58b0bd555a214bbee9f7985ff77df, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: 8a9d0a6c53fcfe04798b5bbb4365b1ba, type: 2}
 --- !u!4 &34093206
 Transform:
   m_ObjectHideFlags: 0
@@ -1068,6 +1068,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1008841779511059029, guid: 11fbcb60e7900214dbd2f4be98f6e245, type: 3}
+      propertyPath: m_TagString
+      value: Selectable
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392549557148923214, guid: 11fbcb60e7900214dbd2f4be98f6e245, type: 3}
+      propertyPath: m_TagString
+      value: Selectable
+      objectReference: {fileID: 0}
+    - target: {fileID: 2478939327398282530, guid: 11fbcb60e7900214dbd2f4be98f6e245, type: 3}
+      propertyPath: m_TagString
+      value: Selectable
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475144291325597955, guid: 11fbcb60e7900214dbd2f4be98f6e245, type: 3}
+      propertyPath: m_TagString
+      value: Selectable
+      objectReference: {fileID: 0}
     - target: {fileID: 7104307782786581363, guid: 11fbcb60e7900214dbd2f4be98f6e245, type: 3}
       propertyPath: m_LocalPosition.x
       value: 437.3
