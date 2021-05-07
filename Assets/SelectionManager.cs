@@ -5,8 +5,8 @@ using UnityEngine;
 public class SelectionManager : MonoBehaviour
 {
     [SerializeField] private string selectableTag = "Selectable";
-    //[SerializeField] private Material highlightMaterial;
-    //[SerializeField] private Material defaultMaterial;
+    [SerializeField] private Material highlightMaterial;
+    [SerializeField] private Material defaultMaterial;
 
     private Transform _selection;
 
@@ -19,7 +19,10 @@ public class SelectionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_selection != null) {
+        if (_selection != null)
+        {
+            var selectionRenderer = _selection.GetComponent<Renderer>();
+            selectionRenderer.material = defaultMaterial;
             Debug.Log("Interakcija gotova");
             _selection = null;
         }
@@ -28,11 +31,19 @@ public class SelectionManager : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
-            var selection = hit.transform;
-            if (selection.CompareTag(selectableTag))
+            if (hit.distance <= 4)
             {
-                _selection = selection;
-                Debug.Log("Interakcija");
+                var selection = hit.transform;
+                if (selection.CompareTag(selectableTag))
+                {
+                    var selectionRenderer = selection.GetComponent<Renderer>();
+                    if (selectionRenderer != null)
+                    {
+                        selectionRenderer.material = highlightMaterial;
+                    }
+                    _selection = selection;
+                    Debug.Log("Interakcija " + hit.distance + " m");
+                }
             }
         }
     }

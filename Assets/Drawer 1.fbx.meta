@@ -1,80 +1,56 @@
 fileFormatVersion: 2
-guid: 02dd51ae56752324e93e38fe764f0845
+guid: ca49227133980404ea0250f64d78f3fc
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable:
   - first:
-      74: -6301717629915186485
-    second: DrawerOpen4
+      74: -3770909212680150615
+    second: Drawer1|Drawer1_Open
   - first:
-      74: 1798756650636448291
-    second: DrawerOpen3
+      74: 1006122934683275295
+    second: Drawer1|Drawer2_Open
   - first:
-      74: -7243758474137023805
-    second: DrawerOpen2
+      74: 2786144749541515587
+    second: Drawer1|Drawer3_Open
   - first:
-      74: 5823774150605708181
-    second: DrawerOpen1
+      74: 2131139527338423260
+    second: Drawer1|Drawer4_Open
   - first:
-      74: -3847417501810572905
-    second: Armature|DrawerOpen1
+      74: 7591691778186414045
+    second: Drawer2|Drawer1_Open
   - first:
-      74: 1943211375426571650
-    second: Armature|DrawerOpen2
+      74: 3730068136840784250
+    second: Drawer2|Drawer2_Open
   - first:
-      74: -1824616585821664726
-    second: Armature|DrawerOpen3
+      74: 794963594626571678
+    second: Drawer2|Drawer3_Open
   - first:
-      74: 6209362801297850093
-    second: Armature|DrawerOpen3.001
+      74: 5622994117769020183
+    second: Drawer2|Drawer4_Open
   - first:
-      74: -7176675986611102910
-    second: Armature|DrawerOpen4
+      74: -4845069823888596181
+    second: Drawer3|Drawer1_Open
   - first:
-      74: -8761868855160408908
-    second: Armature.001|DrawerOpen1
+      74: 7930641420355312939
+    second: Drawer3|Drawer2_Open
   - first:
-      74: 7557870665998074030
-    second: Armature.001|DrawerOpen2
+      74: -6518684548642336836
+    second: Drawer3|Drawer3_Open
   - first:
-      74: 3055729414617435434
-    second: Armature.001|DrawerOpen3
+      74: -6932248541426120737
+    second: Drawer3|Drawer4_Open
   - first:
-      74: -8379015825124583588
-    second: Armature.001|DrawerOpen3.001
+      74: 3931385681535630283
+    second: Drawer4|Drawer1_Open
   - first:
-      74: 3795224298870993713
-    second: Armature.001|DrawerOpen4
+      74: 4156247002282108401
+    second: Drawer4|Drawer2_Open
   - first:
-      74: 673248548398514361
-    second: Armature.002|DrawerOpen1
+      74: -8488231180052431089
+    second: Drawer4|Drawer3_Open
   - first:
-      74: -4551892858715392158
-    second: Armature.002|DrawerOpen2
-  - first:
-      74: 5413898213448463490
-    second: Armature.002|DrawerOpen3
-  - first:
-      74: -4934703081476109570
-    second: Armature.002|DrawerOpen3.001
-  - first:
-      74: -6331301227107276444
-    second: Armature.002|DrawerOpen4
-  - first:
-      74: -3661947079112039443
-    second: Armature.003|DrawerOpen1
-  - first:
-      74: -5965436596373898065
-    second: Armature.003|DrawerOpen2
-  - first:
-      74: 1945589236411572092
-    second: Armature.003|DrawerOpen3
-  - first:
-      74: -3381922266225072658
-    second: Armature.003|DrawerOpen3.001
-  - first:
-      74: -5759896116522616743
-    second: Armature.003|DrawerOpen4
+      74: 2228504039626261135
+    second: Drawer4|Drawer4_Open
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -104,11 +80,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: DrawerOpen4
-      takeName: DrawerOpen4
+      name: Drawer1|Drawer1_Open
+      takeName: Drawer1|Drawer1_Open
       internalID: 0
       firstFrame: 0
-      lastFrame: 29
+      lastFrame: 35
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -133,11 +109,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: DrawerOpen3
-      takeName: DrawerOpen3.001
+      name: Drawer2|Drawer2_Open
+      takeName: Drawer2|Drawer2_Open
       internalID: 0
       firstFrame: 0
-      lastFrame: 29
+      lastFrame: 35
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -162,11 +138,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: DrawerOpen2
-      takeName: DrawerOpen2
+      name: Drawer3|Drawer3_Open
+      takeName: Drawer3|Drawer3_Open
       internalID: 0
       firstFrame: 0
-      lastFrame: 29
+      lastFrame: 35
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -191,11 +167,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: DrawerOpen1
-      takeName: DrawerOpen1
+      name: Drawer4|Drawer4_Open
+      takeName: Drawer4|Drawer4_Open
       internalID: 0
       firstFrame: 0
-      lastFrame: 29
+      lastFrame: 35
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
