@@ -23,6 +23,7 @@ public class SelectionManager : MonoBehaviour
         {
             var selectionRenderer = _selection.GetComponent<Renderer>();
             selectionRenderer.material = defaultMaterial;
+            Debug.Log("Interakcija gotova");
             _selection = null;
         }
 
@@ -42,7 +43,7 @@ public class SelectionManager : MonoBehaviour
                         selectionRenderer.material = highlightMaterial;
                     }
                     _selection = selection;
-                    Debug.Log("Interakcija sa " + hit.collider.gameObject.name);
+                    Debug.Log("Interakcija " + hit.distance + " m");
                 }
             }
         }
