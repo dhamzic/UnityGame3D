@@ -5,20 +5,26 @@ using UnityEngine;
 public class AnimController : MonoBehaviour
 {
     public Animator anim;
+    private Dictionary<string, bool> IsDrawerOpen = new Dictionary<string, bool>();
 
     // Start is called before the first frame update
     void Start()
     {
+        FillDrawerState();
         anim = GetComponent<Animator>();
+    }
+
+    void FillDrawerState()
+    {
+        IsDrawerOpen.Add("Drawer1", false);
+        IsDrawerOpen.Add("Drawer2", false);
+        IsDrawerOpen.Add("Drawer3", false);
+        IsDrawerOpen.Add("Drawer4", false);
     }
 
     bool AnimatorIsPlaying(string animationName)
     {
-        if (
-            this.anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1
-            &&
-            this.anim.GetCurrentAnimatorStateInfo(0).IsName(animationName)
-            )
+        if (this.anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
         {
             return true;
         }
@@ -46,73 +52,9 @@ public class AnimController : MonoBehaviour
     {
 
     }
-
-    public void StartAnimation()
+    public void CloseAnim(string drawerName)
     {
-        if (Input.GetKeyDown("1"))
-        {
-            if (
-                !AnimatorIsPlaying("Drawer4_Open")
-                &&
-                !AnimatorIsPlaying("Drawer2_Open")
-                &&
-                !AnimatorIsPlaying("Drawer3_Open")
-                &&
-                StartingPosition("Drawer1")
-                )
-            {
-                anim.Play("Drawer1_Open");
-            }
-
-        }
-        if (Input.GetKeyDown("2"))
-        {
-            if (
-                !AnimatorIsPlaying("Drawer1_Open")
-                &&
-                !AnimatorIsPlaying("Drawer4_Open")
-                &&
-                !AnimatorIsPlaying("Drawer3_Open")
-                &&
-                StartingPosition("Drawer2")
-                )
-            {
-                anim.Play("Drawer2_Open");
-            }
-
-        }
-        if (Input.GetKeyDown("3"))
-        {
-            if (
-                !AnimatorIsPlaying("Drawer1_Open")
-                &&
-                !AnimatorIsPlaying("Drawer2_Open")
-                &&
-                !AnimatorIsPlaying("Drawer4_Open")
-                &&
-                StartingPosition("Drawer3")
-                )
-            {
-                anim.Play("Drawer3_Open");
-            }
-
-        }
-        if (Input.GetKeyDown("4"))
-        {
-            if (
-                !AnimatorIsPlaying("Drawer1_Open")
-                &&
-                !AnimatorIsPlaying("Drawer2_Open")
-                &&
-                !AnimatorIsPlaying("Drawer3_Open")
-                &&
-                StartingPosition("Drawer4")
-                )
-            {
-                anim.Play("Drawer4_Open");
-            }
-
-        }
+        anim.Play("Drawer4_Close");
     }
     public void StartAnimation(string drawerName)
     {
@@ -124,11 +66,21 @@ public class AnimController : MonoBehaviour
                 !AnimatorIsPlaying("Drawer2_Open")
                 &&
                 !AnimatorIsPlaying("Drawer3_Open")
-                &&
-                StartingPosition("Drawer1")
                 )
             {
-                anim.Play("Drawer1_Open");
+                if (IsDrawerOpen[drawerName] == false)
+                {
+                    anim.Play("Drawer1_Open");
+                    IsDrawerOpen[drawerName] = true;
+                }
+                else
+                {
+                    if (!AnimatorIsPlaying("Drawer1__Open"))
+                    {
+                        anim.Play("Drawer1_Close");
+                        IsDrawerOpen[drawerName] = false; 
+                    }
+                }
             }
 
         }
@@ -140,11 +92,18 @@ public class AnimController : MonoBehaviour
                 !AnimatorIsPlaying("Drawer4_Open")
                 &&
                 !AnimatorIsPlaying("Drawer3_Open")
-                &&
-                StartingPosition("Drawer2")
                 )
             {
-                anim.Play("Drawer2_Open");
+                if (IsDrawerOpen[drawerName] == false)
+                {
+                    anim.Play("Drawer2_Open");
+                    IsDrawerOpen[drawerName] = true;
+                }
+                else
+                {
+                    anim.Play("Drawer2_Close");
+                    IsDrawerOpen[drawerName] = false;
+                }
             }
 
         }
@@ -156,11 +115,18 @@ public class AnimController : MonoBehaviour
                 !AnimatorIsPlaying("Drawer2_Open")
                 &&
                 !AnimatorIsPlaying("Drawer4_Open")
-                &&
-                StartingPosition("Drawer3")
                 )
             {
-                anim.Play("Drawer3_Open");
+                if (IsDrawerOpen[drawerName] == false)
+                {
+                    anim.Play("Drawer3_Open");
+                    IsDrawerOpen[drawerName] = true;
+                }
+                else
+                {
+                    anim.Play("Drawer3_Close");
+                    IsDrawerOpen[drawerName] = false;
+                }
             }
 
         }
@@ -172,11 +138,18 @@ public class AnimController : MonoBehaviour
                 !AnimatorIsPlaying("Drawer2_Open")
                 &&
                 !AnimatorIsPlaying("Drawer3_Open")
-                &&
-                StartingPosition("Drawer4")
                 )
             {
-                anim.Play("Drawer4_Open");
+                if (IsDrawerOpen[drawerName] == false)
+                {
+                    anim.Play("Drawer4_Open");
+                    IsDrawerOpen[drawerName] = true;
+                }
+                else
+                {
+                    anim.Play("Drawer4_Close");
+                    IsDrawerOpen[drawerName] = false;
+                }
             }
 
         }
