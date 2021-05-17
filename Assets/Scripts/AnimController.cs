@@ -12,6 +12,8 @@ public class AnimController : MonoBehaviour
     {
         FillDrawerState();
         anim = GetComponent<Animator>();
+
+        //anim = GameObject.Find("aname").GetComponent<Animator>();
     }
 
     void FillDrawerState()
@@ -56,7 +58,11 @@ public class AnimController : MonoBehaviour
     {
         anim.Play("Drawer4_Close");
     }
-    public void StartAnimation(string drawerName)
+    public void StartDoorAnimation(string drawerName)
+    {
+        anim.Play("Door_Open");
+    }
+    public void StartDrawerAnimation(string drawerName)
     {
         if (drawerName == "Drawer1")
         {
@@ -78,7 +84,7 @@ public class AnimController : MonoBehaviour
                     if (!AnimatorIsPlaying("Drawer1__Open"))
                     {
                         anim.Play("Drawer1_Close");
-                        IsDrawerOpen[drawerName] = false; 
+                        IsDrawerOpen[drawerName] = false;
                     }
                 }
             }

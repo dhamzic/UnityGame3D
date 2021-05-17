@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectionManager : MonoBehaviour
+public class DoorSelectionManager : MonoBehaviour
 {
-    [SerializeField] private string selectableTag = "Selectable";
+    [SerializeField] private string selectableTag = "DoorSelectable";
     [SerializeField] private Material highlightMaterial;
     [SerializeField] private Material defaultMaterial;
 
@@ -14,8 +14,10 @@ public class SelectionManager : MonoBehaviour
     //Provjera je li PREFAB uključen
     bool objectInfoTurnedOn = false;
 
-    public AnimController animationScript;
-    private DrawerController drawerScript;
+
+    public AnimController doorAnimationScript;
+    private DrawerController doorScript;
+
 
     private Transform _selection;
 
@@ -23,7 +25,7 @@ public class SelectionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        drawerScript = GetComponent<DrawerController>();
+       // drawerScript = GetComponent<DrawerController>();
     }
 
     // Update is called once per frame
@@ -31,7 +33,7 @@ public class SelectionManager : MonoBehaviour
     {
         if (isHovering == false)
         {
-            drawerScript.DeleteFloatingText();
+            //drawerScript.DeleteFloatingText();
             objectInfoTurnedOn = false;
         }
 
@@ -46,7 +48,7 @@ public class SelectionManager : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.distance <= 4)
+            if (hit.distance <= 6)
             {
                 var selection = hit.transform;
                 if (selection.CompareTag(selectableTag))
@@ -62,14 +64,15 @@ public class SelectionManager : MonoBehaviour
 
                     if (objectInfoTurnedOn == false)
                     {
-                        drawerScript.ShowFloatingText();
+                        //drawerScript.ShowFloatingText();
                     }
                     objectInfoTurnedOn = true;
 
+                    
 
                     if (Input.GetKeyDown("e"))
                     {
-                        animationScript.StartAnimation(hit.transform.name);
+                        doorAnimationScript.StartDoorAnimation(hit.transform.name);
                     }
 
                 }
