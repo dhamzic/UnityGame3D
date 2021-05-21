@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DrawerController : MonoBehaviour
 {
+    public GameObject DrawerObject;
+
     public GameObject OpenCloseTextParent;
     public bool PrefabInstantiated = false;
 
@@ -11,19 +13,28 @@ public class DrawerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        DrawerObject = GameObject.Find("Drawer");
     }
 
     // Update is called once per frame
     void Update()
     {
     }
+    public Vector3 GetDrawerPosition()
+    {
+        return new Vector3(DrawerObject.transform.localPosition.x, DrawerObject.transform.localPosition.y + 1.319f, DrawerObject.transform.localPosition.z);
+    }
+    public Vector3 GetDrawerRotation()
+    {
+        return DrawerObject.transform.eulerAngles;
+    }
 
     public void ShowFloatingText()
     {
         if (PrefabInstantiated == false)
         {
-            instantiatedPrefab = Instantiate(OpenCloseTextParent);
+            instantiatedPrefab = Instantiate(OpenCloseTextParent, GetDrawerPosition(), Quaternion.identity);
+            instantiatedPrefab.transform.eulerAngles = new Vector3(90, GetDrawerRotation().y, GetDrawerRotation().z);
             PrefabInstantiated = true;
             Debug.Log("INSTANTIATE");
         }
@@ -32,6 +43,8 @@ public class DrawerController : MonoBehaviour
         {
             if (OpenCloseTextParent.activeInHierarchy == false)
             {
+                instantiatedPrefab.transform.position = GetDrawerPosition();
+                instantiatedPrefab.transform.eulerAngles = new Vector3(90, GetDrawerRotation().y, GetDrawerRotation().z);
                 instantiatedPrefab.SetActive(true);
             }
         }
