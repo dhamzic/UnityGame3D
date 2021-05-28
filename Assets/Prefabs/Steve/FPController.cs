@@ -29,6 +29,15 @@ public class FPController : MonoBehaviour
     bool playingWalking = false;
     bool previouslyGrounded = true;
 
+    [SerializeField] private UiInventory uiInventory;
+
+    private Inventory inventory;
+    private void Awake()
+    {
+        inventory = new Inventory();
+        uiInventory.SetInventory(inventory);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +45,7 @@ public class FPController : MonoBehaviour
         capsule = this.GetComponent<CapsuleCollider>();
         cameraRot = cam.transform.localRotation;
         characterRot = this.transform.localRotation;
-}
+    }
 
     // Update is called once per frame
     void Update()
@@ -130,7 +139,7 @@ public class FPController : MonoBehaviour
     bool IsGrounded()
     {
         RaycastHit hitInfo;
-        if (Physics.SphereCast(transform.position, capsule.radius/2f, Vector3.down, out hitInfo,
+        if (Physics.SphereCast(transform.position, capsule.radius / 2f, Vector3.down, out hitInfo,
                 (capsule.height / 2f) - capsule.radius + 0.1f))
         {
             return true;
@@ -140,7 +149,7 @@ public class FPController : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-       if (IsGrounded())
+        if (IsGrounded())
         {
             if (anim.GetBool("walking") && !playingWalking)
             {
