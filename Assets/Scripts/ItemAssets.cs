@@ -12,7 +12,11 @@ public class ItemAssets : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        Debug.Log("ItemAssets Awake");
     }
+
+
+    public Transform prefabItemWorld;
 
     public Sprite keySprite;
     public Sprite sunglassesSprite;

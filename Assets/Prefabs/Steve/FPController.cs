@@ -32,15 +32,18 @@ public class FPController : MonoBehaviour
     [SerializeField] private UiInventory uiInventory;
 
     private Inventory inventory;
-    private void Awake()
-    {
-        inventory = new Inventory();
-        uiInventory.SetInventory(inventory);
-    }
+    //private void Awake()
+    //{
+    //    inventory = new Inventory();
+    //    uiInventory.SetInventory(inventory);
+    //}
 
     // Start is called before the first frame update
     void Start()
     {
+        inventory = new Inventory();
+        uiInventory.SetInventory(inventory);
+
         rb = this.GetComponent<Rigidbody>();
         capsule = this.GetComponent<CapsuleCollider>();
         cameraRot = cam.transform.localRotation;
