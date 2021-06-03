@@ -16,9 +16,11 @@ public class ItemAssets : MonoBehaviour
     }
 
 
-    public Transform prefabItemWorld;
+    public Transform pfItemWorld;
 
     public Sprite keySprite;
+    public GameObject keyObject;
+
     public Sprite sunglassesSprite;
     public Sprite CassetteTapeSprite;
 }

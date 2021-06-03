@@ -57,7 +57,7 @@ public class UiInventory : MonoBehaviour
             if (x >= 4)
             {
                 x = 0;
-                y++;
+                y--;
             }
         }
     }

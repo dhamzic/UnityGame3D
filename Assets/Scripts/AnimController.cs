@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AnimController : MonoBehaviour
 {
-    public Animator anim;
+    private Animator anim;
+
     private Dictionary<string, bool> IsDrawerOpen = new Dictionary<string, bool>();
 
     // Start is called before the first frame update
@@ -12,7 +13,11 @@ public class AnimController : MonoBehaviour
     {
         FillDrawerState();
         anim = GetComponent<Animator>();
+        if (anim != null)
+        {
+            Debug.Log("Anim info: "+anim.name);
 
+        }
         //anim = GameObject.Find("aname").GetComponent<Animator>();
     }
 

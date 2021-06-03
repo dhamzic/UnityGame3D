@@ -29,9 +29,9 @@ public class FPController : MonoBehaviour
     bool playingWalking = false;
     bool previouslyGrounded = true;
 
-    [SerializeField] private UiInventory uiInventory;
+    //[SerializeField] private UiInventory uiInventory;
 
-    private Inventory inventory;
+    //private Inventory inventory;
     //private void Awake()
     //{
     //    inventory = new Inventory();
@@ -41,8 +41,8 @@ public class FPController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        inventory = new Inventory();
-        uiInventory.SetInventory(inventory);
+        //inventory = new Inventory();
+        //uiInventory.SetInventory(inventory);
 
         rb = this.GetComponent<Rigidbody>();
         capsule = this.GetComponent<CapsuleCollider>();
