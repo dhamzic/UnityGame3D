@@ -17,6 +17,7 @@ public class UiInventory : MonoBehaviour
         itemSlotTemplate = itemSlotContainer.Find("itemSlotTemplate");
     }
 
+
     //public void SetPlayer(Player player)
     //{
     //    this.player = player;
@@ -39,7 +40,7 @@ public class UiInventory : MonoBehaviour
         }
     }
 
-    private void RefreshInventoryItems()
+    public void RefreshInventoryItems()
     {
         int x = 0;
         int y = 0;

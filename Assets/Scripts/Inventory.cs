@@ -17,6 +17,7 @@ public class Inventory
     public void AddItem(Item item)
     {
         itemList.Add(item);
+        Debug.Log(item.itemType.ToString() + " has been collected in the Inventory. Current list count: "+this.itemList.Count+"");
     }
 
     public List<Item> GetItemList()

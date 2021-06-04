@@ -36,11 +36,10 @@ namespace Assets.Scripts
         }
         private void Start()
         {
-            
             drawerScript = GetComponent<DrawerController>();
             inventory = new Inventory();
             uiInventory.SetInventory(inventory);
-            //ItemWorld.SpawnItemWorld(new Vector3(421.13f, -0.2247214f, -440.05f), new Item { itemType = Item.ItemType.Key, amount = 1 });
+            //ItemWorld.SpawnItemWorld(new Vector3(436.0165f, -0.1f, -445.9609f), new Item { itemType = Item.ItemType.Key, amount = 1 });
         }
         private void Update()
         {
@@ -75,7 +74,8 @@ namespace Assets.Scripts
                 if (hit.distance <= 6)
                 {
                     var selection = hit.transform;
-                    if (selection.CompareTag(selectableTag))
+                    //if (selection.CompareTag(selectableTag))
+                    if (selection.tag.Contains(selectableTag))
                     {
                         isHovering = true;
                         var selectionRenderer = selection.GetComponent<Renderer>();
@@ -93,26 +93,28 @@ namespace Assets.Scripts
                         objectInfoTurnedOn = true;
 
 
-                        Debug.Log("Object hit: " + hit.transform.name);
+                        //Debug.Log("Object hit: " + hit.transform.name);
                         if (Input.GetKeyDown("e"))
                         {
-                            switch (hit.transform.name)
+                            switch (hit.transform.tag)
                             {
-                                case "Door":
+                                case "ObjectSelectable_Door":
                                     {
                                         AnimController ac = GameObject.Find("WallMain").GetComponent<AnimController>();
                                         ac.StartDoorAnimation(hit.transform.name);
-                                        //animationScript.StartDoorAnimation(hit.transform.name);
                                         break;
                                     }
-                                case "Drawer4":
-                                case "Drawer3":
-                                case "Drawer2":
-                                case "Drawer1":
+                                case "ObjectSelectable_Drawer":
                                     {
                                         AnimController ac = GameObject.Find("Drawer").GetComponent<AnimController>();
                                         ac.StartDrawerAnimation(hit.transform.name);
-                                        //animationScript.StartDrawerAnimation(hit.transform.name);
+                                        break;
+                                    }
+                                case "ObjectSelectable_Inventory":
+                                    {
+                                        inventory.AddItem(new Item { itemType = hit.transform.GetComponent<ItemWorld>().itemType, amount = 1 });
+                                        Destroy(hit.transform.gameObject);
+                                        uiInventory.RefreshInventoryItems();
                                         break;
                                     }
                                 default:

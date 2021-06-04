@@ -7,6 +7,9 @@ TagManager:
   - DrawerSelectable
   - DoorSelectable
   - ObjectSelectable
+  - ObjectSelectable_Inventory
+  - ObjectSelectable_Drawer
+  - ObjectSelectable_Door
   layers:
   - Default
   - TransparentFX
