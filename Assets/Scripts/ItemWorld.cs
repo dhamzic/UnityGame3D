@@ -17,6 +17,7 @@ public class ItemWorld : MonoBehaviour
     //    return itemWorld;
     //}
     public Item.ItemType itemType;
+    public string itemDescription;
     private SpriteRenderer spriteRenderer;
 
     //public void SetItem(Item item)

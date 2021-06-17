@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UiInventory : MonoBehaviour
 {
@@ -35,7 +36,8 @@ public class UiInventory : MonoBehaviour
             itemSlotTemplate = itemSlotContainer.Find("itemSlotTemplate");
             RefreshInventoryItems();
         }
-        else {
+        else
+        {
             RefreshInventoryItems();
         }
     }
@@ -53,6 +55,11 @@ public class UiInventory : MonoBehaviour
             itemSlotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y * itemSlotCellSize);
             Image image = itemSlotRectTransform.Find("image").GetComponent<Image>();
             image.sprite = item.GetSprite();
+
+            TextMeshProUGUI uiText = itemSlotRectTransform.Find("amountText").GetComponent<TextMeshProUGUI>();
+
+            uiText.SetText(item.description);
+
 
             x++;
             if (x >= 4)

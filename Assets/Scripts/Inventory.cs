@@ -10,9 +10,9 @@ public class Inventory
     {
         itemList = new List<Item>();
 
-        AddItem(new Item { itemType = Item.ItemType.Key, amount = 1 });
-        AddItem(new Item { itemType = Item.ItemType.CassetteTape, amount = 1 });
-        AddItem(new Item { itemType = Item.ItemType.Sunglasses, amount = 1 });
+        //AddItem(new Item { itemType = Item.ItemType.Key, description = "Key" });
+        //AddItem(new Item { itemType = Item.ItemType.CassetteTape, amount = 1 });
+        //AddItem(new Item { itemType = Item.ItemType.Sunglasses, amount = 1 });
     }
     public void AddItem(Item item)
     {

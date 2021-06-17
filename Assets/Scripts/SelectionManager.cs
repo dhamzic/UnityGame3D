@@ -112,7 +112,7 @@ namespace Assets.Scripts
                                     }
                                 case "ObjectSelectable_Inventory":
                                     {
-                                        inventory.AddItem(new Item { itemType = hit.transform.GetComponent<ItemWorld>().itemType, amount = 1 });
+                                        inventory.AddItem(new Item { itemType = hit.transform.GetComponent<ItemWorld>().itemType, description = hit.transform.GetComponent<ItemWorld>().itemDescription });
                                         Destroy(hit.transform.gameObject);
                                         uiInventory.RefreshInventoryItems();
                                         break;

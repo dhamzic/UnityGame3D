@@ -10,7 +10,7 @@ public class Item
         CassetteTape
     }
     public ItemType itemType;
-    public int amount;
+    public string description;
 
     public Sprite GetSprite()
     {
