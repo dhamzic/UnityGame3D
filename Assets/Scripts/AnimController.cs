@@ -65,7 +65,9 @@ public class AnimController : MonoBehaviour
     }
     public void StartDoorAnimation(string drawerName)
     {
-        anim.Play("Door_Open");
+        //anim.Play("Door_Open");
+        anim.Play("DoorHandleAction");
+        //anim.Play("DoorOpen");
     }
     public void StartDrawerAnimation(string drawerName)
     {

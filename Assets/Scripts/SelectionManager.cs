@@ -29,6 +29,12 @@ namespace Assets.Scripts
         bool objectInfoTurnedOn = false;
 
         private GameObject UiInventoryCanvas;
+
+        public GameObject trenutniRoditelj;
+        public Transform trenutniRoditeljManevriranje;
+        float udaljenost;
+        float snaga = 600;
+
         private void Awake()
         {
             UiInventoryCanvas = GameObject.Find("UiInventory");
@@ -40,6 +46,11 @@ namespace Assets.Scripts
             inventory = new Inventory();
             uiInventory.SetInventory(inventory);
             //ItemWorld.SpawnItemWorld(new Vector3(436.0165f, -0.1f, -445.9609f), new Item { itemType = Item.ItemType.Key, amount = 1 });
+
+            //Dohvati roditelja. Služi za prijenos objekta. Razmak između igrača i objekta prilikom premještanja
+            trenutniRoditelj = GameObject.Find("FPC_ObjectHolder");
+            trenutniRoditeljManevriranje = trenutniRoditelj.GetComponent<Transform>();
+
         }
         private void Update()
         {
@@ -100,7 +111,7 @@ namespace Assets.Scripts
                             {
                                 case "ObjectSelectable_Door":
                                     {
-                                        AnimController ac = GameObject.Find("WallMain").GetComponent<AnimController>();
+                                        AnimController ac = GameObject.Find("Door").GetComponent<AnimController>();
                                         ac.StartDoorAnimation(hit.transform.name);
                                         break;
                                     }
@@ -117,10 +128,24 @@ namespace Assets.Scripts
                                         uiInventory.RefreshInventoryItems();
                                         break;
                                     }
+                                case "ObjectSelectable_Painting":
+                                    {
+                                        //Podigni objekt
+                                        Debug.Log("Objekt podignut");
+                                        GameObject objektSlike = GameObject.Find("Painting");
+                                        objektSlike.GetComponent<Rigidbody>().useGravity = false;
+                                        objektSlike.GetComponent<Rigidbody>().detectCollisions = true;
+                                        objektSlike.transform.parent = trenutniRoditelj.transform;
+                                        objektSlike.transform.position = trenutniRoditeljManevriranje.transform.position;
+
+                                        objektSlike.transform.localEulerAngles = new Vector3(0, 0, 0);
+                                        break;
+                                    }
                                 default:
                                     break;
                             }
                         }
+                        
                     }
                     else
                     {
@@ -136,6 +161,18 @@ namespace Assets.Scripts
             else
             {
                 isHovering = false;
+            }
+
+
+
+
+            if (Input.GetKeyDown("t"))
+            {
+                GameObject objektSlike = GameObject.Find("Painting");            
+                objektSlike.AddComponent<Rigidbody>();
+                objektSlike.GetComponent<Rigidbody>().useGravity = true;
+                objektSlike.transform.localEulerAngles = new Vector3(3, 0, 0);
+                objektSlike.transform.parent = null;
             }
         }
     }

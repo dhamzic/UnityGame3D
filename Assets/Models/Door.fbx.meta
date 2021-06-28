@@ -1,8 +1,11 @@
 fileFormatVersion: 2
-guid: 12c1bcd74e5dcb84698c8f1a469430ee
+guid: ab30348f5eaa42d4a904d3f4bb1ceb6c
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable:
+  - first:
+      74: -5589436533846708409
+    second: Door|DoorClose
   - first:
       74: -3763818638896567404
     second: Door|DoorHandleAction
@@ -10,35 +13,14 @@ ModelImporter:
       74: 5529963745848489855
     second: Door|DoorOpen
   - first:
-      74: -3354467911439647945
-    second: Door|Drawer1_Open
-  - first:
-      74: -4654401360782921092
-    second: Door|Drawer2_Open
-  - first:
-      74: -2419211134014908198
-    second: Door|Drawer3_Open
-  - first:
-      74: 4590331852211295983
-    second: Door|Drawer4_Open
+      74: -3005033446789717036
+    second: DoorHandle|DoorClose
   - first:
       74: 8309263189820137485
     second: DoorHandle|DoorHandleAction
   - first:
       74: 3762800619203843464
     second: DoorHandle|DoorOpen
-  - first:
-      74: -1298273911010432665
-    second: DoorHandle|Drawer1_Open
-  - first:
-      74: 5219017795275511468
-    second: DoorHandle|Drawer2_Open
-  - first:
-      74: 190854443331215600
-    second: DoorHandle|Drawer3_Open
-  - first:
-      74: -1284716441362709847
-    second: DoorHandle|Drawer4_Open
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -68,11 +50,40 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
+      name: Door|DoorClose
+      takeName: Door|DoorClose
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 35
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
       name: Door|DoorOpen
       takeName: Door|DoorOpen
       internalID: 0
       firstFrame: 0
-      lastFrame: 40
+      lastFrame: 35
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -101,7 +112,7 @@ ModelImporter:
       takeName: DoorHandle|DoorHandleAction
       internalID: 0
       firstFrame: 0
-      lastFrame: 40
+      lastFrame: 34
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -186,7 +197,7 @@ ModelImporter:
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 1
+  animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
   additionalBone: 0
