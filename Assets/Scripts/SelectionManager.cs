@@ -169,7 +169,6 @@ namespace Assets.Scripts
             if (Input.GetKeyDown("t"))
             {
                 GameObject objektSlike = GameObject.Find("Painting");            
-                objektSlike.AddComponent<Rigidbody>();
                 objektSlike.GetComponent<Rigidbody>().useGravity = true;
                 objektSlike.transform.localEulerAngles = new Vector3(3, 0, 0);
                 objektSlike.transform.parent = null;
