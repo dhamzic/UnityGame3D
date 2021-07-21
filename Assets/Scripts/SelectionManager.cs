@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.SelectableObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,10 @@ namespace Assets.Scripts
     public class SelectionManager : MonoBehaviour
     {
         [SerializeField] private string selectableTag = "ObjectSelectable";
+
         [SerializeField] private Material highlightMaterial;
-        [SerializeField] private Material defaultMaterial;
+        //[SerializeField] private Material defaultMaterial;
+
         [SerializeField] private UiInventory uiInventory;
 
         private Inventory inventory;
@@ -80,15 +83,26 @@ namespace Assets.Scripts
             {
                 var selectionRenderer = _selection.GetComponent<Renderer>();
 
+                SelectableObject selectedObject = _selection.GetComponent<SelectableObject>();
+
+
                 Material[] materials = new Material[selectionRenderer.materials.Length];
                 for (int i = 0; i < selectionRenderer.materials.Length; i++)
                 {
-                    materials[i] = defaultMaterial;
+                    materials[i] = selectedObject.defaultMaterials[i];
                 }
                 selectionRenderer.sharedMaterials = materials;
 
+                //Material[] materials = new Material[selectionRenderer.materials.Length];
+                //for (int i = 0; i < selectionRenderer.materials.Length; i++)
+                //{
+                //    materials[i] = defaultMaterial;
+                //}
+                //selectionRenderer.sharedMaterials = materials;
 
-                
+
+
+
                 //selectionRenderer.material = defaultMaterial;
                 _selection = null;
             }
@@ -199,7 +213,7 @@ namespace Assets.Scripts
                                                     l.intensity = 3;
 
                                                     Debug.Log("Pass is valid: " + this.safePassword);
-                                                    
+
                                                     ac.OpenSafe();
                                                     safeIsOpened = true;
                                                     Light sl = GameObject.Find("SafeLight").GetComponent<Light>();
