@@ -69,6 +69,13 @@ public class AnimController : MonoBehaviour
         anim.Play("DoorHandleAction");
         //anim.Play("DoorOpen");
     }
+    public void OpenSafe() {
+        anim.Play("Safe_HandleOpen");
+        Debug.Log("Safe is opened." + anim.name);
+    }
+    public void PressButton(string buttonNumber) {
+        anim.Play("PressButton_"+buttonNumber);
+    }
     public void StartDrawerAnimation(string drawerName)
     {
         if (drawerName == "Drawer1")

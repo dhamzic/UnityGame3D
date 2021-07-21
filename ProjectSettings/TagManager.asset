@@ -11,6 +11,7 @@ TagManager:
   - ObjectSelectable_Drawer
   - ObjectSelectable_Door
   - ObjectSelectable_Painting
+  - ObjectSelectable_SafeButton
   layers:
   - Default
   - TransparentFX

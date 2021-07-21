@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: d9ea3c00c1be1d64d807921825dad085
+guid: d9057ec9f84b73f4da098bfbae9954e4
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: TexturesCom_GluLamBeam_SideNew_1K_albedo
-    second: {fileID: 2800000, guid: 1e1751043c34fe542a23bd5044d3b2e3, type: 3}
+  externalObjects: {}
   materials:
     materialImportMode: 1
     materialName: 0

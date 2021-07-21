@@ -35,6 +35,11 @@ namespace Assets.Scripts
         float udaljenost;
         float snaga = 600;
 
+        #region Safe
+        string safePassword = "";
+        bool safeIsOpened = false;
+        #endregion
+
         private void Awake()
         {
             UiInventoryCanvas = GameObject.Find("UiInventory");
@@ -74,11 +79,22 @@ namespace Assets.Scripts
             if (_selection != null)
             {
                 var selectionRenderer = _selection.GetComponent<Renderer>();
-                selectionRenderer.material = defaultMaterial;
+
+                Material[] materials = new Material[selectionRenderer.materials.Length];
+                for (int i = 0; i < selectionRenderer.materials.Length; i++)
+                {
+                    materials[i] = defaultMaterial;
+                }
+                selectionRenderer.sharedMaterials = materials;
+
+
+                
+                //selectionRenderer.material = defaultMaterial;
                 _selection = null;
             }
 
             var ray = Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f));
+            //var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
@@ -89,10 +105,18 @@ namespace Assets.Scripts
                     if (selection.tag.Contains(selectableTag))
                     {
                         isHovering = true;
+
                         var selectionRenderer = selection.GetComponent<Renderer>();
                         if (selectionRenderer != null)
                         {
-                            selectionRenderer.material = highlightMaterial;
+                            Material[] materials = new Material[selectionRenderer.materials.Length];
+                            for (int i = 0; i < selectionRenderer.materials.Length; i++)
+                            {
+                                materials[i] = highlightMaterial;
+                            }
+                            selectionRenderer.sharedMaterials = materials;
+                            //selectionRenderer.material = highlightMaterial;
+
                         }
                         _selection = selection;
 
@@ -145,7 +169,58 @@ namespace Assets.Scripts
                                     break;
                             }
                         }
-                        
+                        else if (Input.GetMouseButtonDown(0))
+                        {
+                            switch (hit.transform.tag)
+                            {
+                                case "ObjectSelectable_SafeButton":
+                                    {
+                                        if (safeIsOpened == false)
+                                        {
+                                            AnimController ac = GameObject.Find("WallWithSafe").GetComponent<AnimController>();
+                                            ac.PressButton(hit.transform.name[hit.transform.name.Length - 1].ToString());
+                                            //Animacija gumba
+
+                                            Light ul = GameObject.Find("UnsuccessLight").GetComponent<Light>();
+                                            if (ul.intensity > 0)
+                                            {
+                                                ul.intensity = 0;
+                                            }
+                                            if (this.safePassword.Length < 4)
+                                            {
+                                                this.safePassword = this.safePassword + hit.transform.name[hit.transform.name.Length - 1].ToString();
+                                            }
+                                            if (this.safePassword.Length == 4)
+                                            {
+                                                bool validPass = Safe.CheckPassword(this.safePassword);
+                                                if (validPass)
+                                                {
+                                                    Light l = GameObject.Find("SuccessLight").GetComponent<Light>();
+                                                    l.intensity = 3;
+
+                                                    Debug.Log("Pass is valid: " + this.safePassword);
+                                                    
+                                                    ac.OpenSafe();
+                                                    safeIsOpened = true;
+                                                    Light sl = GameObject.Find("SafeLight").GetComponent<Light>();
+                                                    sl.intensity = 3;
+                                                }
+                                                else
+                                                {
+                                                    ul.intensity = 3;
+
+                                                    Debug.Log("Pass is invalid: " + this.safePassword);
+                                                }
+                                                this.safePassword = "";
+                                            }
+                                        }
+
+
+                                        break;
+                                    }
+                            }
+                        }
+
                     }
                     else
                     {
@@ -168,7 +243,7 @@ namespace Assets.Scripts
 
             if (Input.GetKeyDown("t"))
             {
-                GameObject objektSlike = GameObject.Find("Painting");            
+                GameObject objektSlike = GameObject.Find("Painting");
                 objektSlike.GetComponent<Rigidbody>().useGravity = true;
                 objektSlike.transform.localEulerAngles = new Vector3(3, 0, 0);
                 objektSlike.transform.parent = null;
