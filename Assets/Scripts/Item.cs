@@ -7,7 +7,8 @@ public class Item
     public enum ItemType { 
         Key,
         Sunglasses,
-        CassetteTape
+        CassetteTape,
+        SvahiliNote
     }
     public ItemType itemType;
     public string description;
@@ -20,6 +21,7 @@ public class Item
             case ItemType.Key: return ItemAssets.Instance.keySprite;
             case ItemType.Sunglasses: return ItemAssets.Instance.sunglassesSprite;
             case ItemType.CassetteTape: return ItemAssets.Instance.CassetteTapeSprite;
+            case ItemType.SvahiliNote: return ItemAssets.Instance.SvahiliNoteSprite;
         }
     }
 

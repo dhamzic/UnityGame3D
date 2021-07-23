@@ -20,7 +20,7 @@ namespace Assets.Scripts
         private Inventory inventory;
 
 
-
+        private bool CurvedDrawerUnLocked = false;
         private DrawerController drawerScript;
         private DrawerController doorScript;
 
@@ -155,8 +155,20 @@ namespace Assets.Scripts
                                     }
                                 case "ObjectSelectable_Drawer":
                                     {
-                                        AnimController ac = GameObject.Find("Drawer").GetComponent<AnimController>();
-                                        ac.StartDrawerAnimation(hit.transform.name);
+                                        if (hit.transform.name.Contains("Cube")) {
+                                            AnimController ac = GameObject.Find("DrawerCube").GetComponent<AnimController>();
+                                            ac.StartDrawerAnimation(hit.transform.name);
+                                            break;                                
+                                        }
+                                        if (CurvedDrawerUnLocked)
+                                        {
+                                            AnimController ac = GameObject.Find("CurvedDrawer").GetComponent<AnimController>();
+                                            ac.StartDrawerAnimation(hit.transform.name);
+                                        }
+                                        else
+                                        {
+                                            Debug.Log("Drawer is locked.");
+                                        }
                                         break;
                                     }
                                 case "ObjectSelectable_Inventory":
@@ -259,7 +271,7 @@ namespace Assets.Scripts
             {
                 GameObject objektSlike = GameObject.Find("Painting");
                 objektSlike.GetComponent<Rigidbody>().useGravity = true;
-                objektSlike.transform.localEulerAngles = new Vector3(3, 0, 0);
+                objektSlike.transform.localEulerAngles = new Vector3(0, 0, 0);
                 objektSlike.transform.parent = null;
             }
         }

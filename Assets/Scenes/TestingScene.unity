@@ -292,7 +292,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectableTag: ObjectSelectable
   highlightMaterial: {fileID: 2100000, guid: 05f58b0bd555a214bbee9f7985ff77df, type: 2}
-  defaultMaterial: {fileID: 2100000, guid: 8a9d0a6c53fcfe04798b5bbb4365b1ba, type: 2}
   uiInventory: {fileID: 1406206114}
   trenutniRoditelj: {fileID: 0}
   trenutniRoditeljManevriranje: {fileID: 0}
@@ -310,6 +309,7 @@ GameObject:
   - component: {fileID: 85275005}
   - component: {fileID: 85275009}
   - component: {fileID: 85275010}
+  - component: {fileID: 85275011}
   m_Layer: 0
   m_Name: Painting
   m_TagString: ObjectSelectable_Painting
@@ -422,6 +422,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &85275011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85275004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28162a887c96f9947a0932330ff006ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultMaterials: []
 --- !u!1001 &89897295
 PrefabInstance:
   m_ObjectHideFlags: 0

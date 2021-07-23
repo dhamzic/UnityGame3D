@@ -1,0 +1,217 @@
+fileFormatVersion: 2
+guid: 6ac7af51a8136884a958ab58b37a2cfc
+ModelImporter:
+  serializedVersion: 20101
+  internalIDToNameTable:
+  - first:
+      74: -1316752549302821900
+    second: Drawer4|Drawer1_Close
+  - first:
+      74: 3931385681535630283
+    second: Drawer4|Drawer1_Open
+  - first:
+      74: -4536899502146685084
+    second: Drawer4|Drawer2_Close
+  - first:
+      74: 4156247002282108401
+    second: Drawer4|Drawer2_Open
+  - first:
+      74: -3004644079875363963
+    second: Drawer4|Drawer3_Close
+  - first:
+      74: -8488231180052431089
+    second: Drawer4|Drawer3_Open
+  - first:
+      74: 1828518113441020911
+    second: Drawer4|Drawer4_Close
+  - first:
+      74: 2228504039626261135
+    second: Drawer4|Drawer4_Open
+  - first:
+      74: -3799197149893019221
+    second: Drawer3|Drawer1_Close
+  - first:
+      74: -4845069823888596181
+    second: Drawer3|Drawer1_Open
+  - first:
+      74: -4100848450312527905
+    second: Drawer3|Drawer2_Close
+  - first:
+      74: 7930641420355312939
+    second: Drawer3|Drawer2_Open
+  - first:
+      74: 2277164600182186472
+    second: Drawer3|Drawer3_Close
+  - first:
+      74: -6518684548642336836
+    second: Drawer3|Drawer3_Open
+  - first:
+      74: -468983122371057811
+    second: Drawer3|Drawer4_Close
+  - first:
+      74: -6932248541426120737
+    second: Drawer3|Drawer4_Open
+  - first:
+      74: -4992414442103505724
+    second: Drawer2|Drawer1_Close
+  - first:
+      74: 7591691778186414045
+    second: Drawer2|Drawer1_Open
+  - first:
+      74: -814322738139884645
+    second: Drawer2|Drawer2_Close
+  - first:
+      74: 3730068136840784250
+    second: Drawer2|Drawer2_Open
+  - first:
+      74: -2975656749887376400
+    second: Drawer2|Drawer3_Close
+  - first:
+      74: 794963594626571678
+    second: Drawer2|Drawer3_Open
+  - first:
+      74: 3401126675368692025
+    second: Drawer2|Drawer4_Close
+  - first:
+      74: 5622994117769020183
+    second: Drawer2|Drawer4_Open
+  - first:
+      74: 5424002676854098671
+    second: Drawer1|Drawer1_Close
+  - first:
+      74: -3770909212680150615
+    second: Drawer1|Drawer1_Open
+  - first:
+      74: -4449324852795861114
+    second: Drawer1|Drawer2_Close
+  - first:
+      74: 1006122934683275295
+    second: Drawer1|Drawer2_Open
+  - first:
+      74: 37643195256527560
+    second: Drawer1|Drawer3_Close
+  - first:
+      74: 2786144749541515587
+    second: Drawer1|Drawer3_Open
+  - first:
+      74: -5611487877498845221
+    second: Drawer1|Drawer4_Close
+  - first:
+      74: 2131139527338423260
+    second: Drawer1|Drawer4_Open
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BlackMaterial
+    second: {fileID: 2100000, guid: 4ec0f7348c162e34a94c17debabe1c36, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 9b01d7db5b803494fbffd8510d27bafe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.003
+    second: {fileID: 2100000, guid: 261b37d2785aeef4e891c148ce1fe48b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WhitePlastic
+    second: {fileID: 2100000, guid: e6bf168775644614d8ef2373dffe266f, type: 2}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

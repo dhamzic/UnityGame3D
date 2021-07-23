@@ -15,7 +15,7 @@ public class AnimController : MonoBehaviour
         anim = GetComponent<Animator>();
         if (anim != null)
         {
-            Debug.Log("Anim info: "+anim.name);
+            Debug.Log("Anim info: " + anim.name);
 
         }
         //anim = GameObject.Find("aname").GetComponent<Animator>();
@@ -69,12 +69,14 @@ public class AnimController : MonoBehaviour
         anim.Play("DoorHandleAction");
         //anim.Play("DoorOpen");
     }
-    public void OpenSafe() {
+    public void OpenSafe()
+    {
         anim.Play("Safe_HandleOpen");
         Debug.Log("Safe is opened." + anim.name);
     }
-    public void PressButton(string buttonNumber) {
-        anim.Play("PressButton_"+buttonNumber);
+    public void PressButton(string buttonNumber)
+    {
+        anim.Play("PressButton_" + buttonNumber);
     }
     public void StartDrawerAnimation(string drawerName)
     {
@@ -173,6 +175,11 @@ public class AnimController : MonoBehaviour
             }
 
         }
+        else if (drawerName == "DrawerCubeChild")
+        {
+            anim.Play("DrawerCube_Open");
+        }
+
     }
 
 }

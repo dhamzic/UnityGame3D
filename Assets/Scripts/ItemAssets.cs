@@ -23,4 +23,5 @@ public class ItemAssets : MonoBehaviour
 
     public Sprite sunglassesSprite;
     public Sprite CassetteTapeSprite;
+    public Sprite SvahiliNoteSprite;
 }
