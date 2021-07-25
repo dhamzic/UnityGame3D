@@ -12,6 +12,8 @@ public class Item
     }
     public ItemType itemType;
     public string description;
+    public Texture inventoryImage;
+
 
     public Sprite GetSprite()
     {

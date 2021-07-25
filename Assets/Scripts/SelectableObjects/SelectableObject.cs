@@ -10,7 +10,6 @@ namespace Assets.Scripts.SelectableObjects
     public class SelectableObject : MonoBehaviour
     {
         [SerializeField] public List<Material> defaultMaterials = new List<Material>();
-
         private void Awake()
         {
             Material[] materials = GetComponent<Renderer>().materials;

@@ -18,6 +18,7 @@ public class ItemWorld : MonoBehaviour
     //}
     public Item.ItemType itemType;
     public string itemDescription;
+    public Texture inventoryImage;
     private SpriteRenderer spriteRenderer;
 
     //public void SetItem(Item item)

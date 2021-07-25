@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -32,6 +33,7 @@ namespace Assets.Scripts
         bool objectInfoTurnedOn = false;
 
         private GameObject UiInventoryCanvas;
+        private GameObject UiInventoryRead;
 
         public GameObject trenutniRoditelj;
         public Transform trenutniRoditeljManevriranje;
@@ -43,10 +45,16 @@ namespace Assets.Scripts
         bool safeIsOpened = false;
         #endregion
 
+        int inventoryItemId = 1;
+
         private void Awake()
         {
             UiInventoryCanvas = GameObject.Find("UiInventory");
             UiInventoryCanvas.SetActive(false);
+
+            UiInventoryRead = GameObject.Find("UiInventoryRead");
+            UiInventoryRead.SetActive(false);
+
         }
         private void Start()
         {
@@ -155,10 +163,11 @@ namespace Assets.Scripts
                                     }
                                 case "ObjectSelectable_Drawer":
                                     {
-                                        if (hit.transform.name.Contains("Cube")) {
+                                        if (hit.transform.name.Contains("Cube"))
+                                        {
                                             AnimController ac = GameObject.Find("DrawerCube").GetComponent<AnimController>();
                                             ac.StartDrawerAnimation(hit.transform.name);
-                                            break;                                
+                                            break;
                                         }
                                         if (CurvedDrawerUnLocked)
                                         {
@@ -173,9 +182,10 @@ namespace Assets.Scripts
                                     }
                                 case "ObjectSelectable_Inventory":
                                     {
-                                        inventory.AddItem(new Item { itemType = hit.transform.GetComponent<ItemWorld>().itemType, description = hit.transform.GetComponent<ItemWorld>().itemDescription });
+                                        inventory.AddItem(new Item { itemType = hit.transform.GetComponent<ItemWorld>().itemType, description = this.inventoryItemId.ToString(), inventoryImage = hit.transform.GetComponent<ItemWorld>().inventoryImage });
                                         Destroy(hit.transform.gameObject);
                                         uiInventory.RefreshInventoryItems();
+                                        this.inventoryItemId++;
                                         break;
                                     }
                                 case "ObjectSelectable_Painting":
@@ -265,6 +275,38 @@ namespace Assets.Scripts
             }
 
 
+            if (Input.GetKeyDown("1"))
+            {
+                if (UiInventoryCanvas.activeInHierarchy == true)
+                {
+                    InventoryKeyManipulation("1");
+                }
+            }
+            else if (Input.GetKeyDown("2"))
+            {
+                if (UiInventoryCanvas.activeInHierarchy == true)
+                {
+                    InventoryKeyManipulation("2");
+                }
+            }
+            else if (Input.GetKeyDown("3"))
+            {
+                if (UiInventoryCanvas.activeInHierarchy == true)
+                {
+                    InventoryKeyManipulation("3");
+                }
+            }
+            else if (Input.GetKeyDown("4"))
+            {
+                if (UiInventoryCanvas.activeInHierarchy == true)
+                {
+                    InventoryKeyManipulation("4");
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                UiInventoryRead.SetActive(false);
+            }
 
 
             if (Input.GetKeyDown("t"))
@@ -273,6 +315,17 @@ namespace Assets.Scripts
                 objektSlike.GetComponent<Rigidbody>().useGravity = true;
                 objektSlike.transform.localEulerAngles = new Vector3(0, 0, 0);
                 objektSlike.transform.parent = null;
+            }
+        }
+        private void InventoryKeyManipulation(string number)
+        {
+            Item selectedItem = this.inventory.itemList.Where(id => id.description == number).FirstOrDefault();
+
+            if (selectedItem != null)
+            {
+                UiInventoryRead.SetActive(true);
+                Transform rawImage = UiInventoryRead.transform.GetChild(0).GetChild(0);
+                rawImage.GetComponent<RawImage>().texture = selectedItem.inventoryImage;
             }
         }
     }
