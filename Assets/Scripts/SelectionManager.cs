@@ -47,20 +47,26 @@ namespace Assets.Scripts
 
         int inventoryItemId = 1;
 
+        GameObject objektSlike = null;
+
         private void Awake()
         {
+            inventory = new Inventory();
+            uiInventory.SetInventory(inventory);
+
             UiInventoryCanvas = GameObject.Find("UiInventory");
             UiInventoryCanvas.SetActive(false);
 
             UiInventoryRead = GameObject.Find("UiInventoryRead");
             UiInventoryRead.SetActive(false);
 
+            this.objektSlike = GameObject.Find("Painting");
+            //objektSlike.GetComponent<Rigidbody>().detectCollisions = false;
         }
         private void Start()
         {
             drawerScript = GetComponent<DrawerController>();
-            inventory = new Inventory();
-            uiInventory.SetInventory(inventory);
+            
             //ItemWorld.SpawnItemWorld(new Vector3(436.0165f, -0.1f, -445.9609f), new Item { itemType = Item.ItemType.Key, amount = 1 });
 
             //Dohvati roditelja. Služi za prijenos objekta. Razmak između igrača i objekta prilikom premještanja
@@ -142,7 +148,6 @@ namespace Assets.Scripts
                         }
                         _selection = selection;
 
-
                         if (objectInfoTurnedOn == false)
                         {
                             //drawerScript.ShowFloatingText();
@@ -182,7 +187,7 @@ namespace Assets.Scripts
                                     }
                                 case "ObjectSelectable_Inventory":
                                     {
-                                        inventory.AddItem(new Item { itemType = hit.transform.GetComponent<ItemWorld>().itemType, description = this.inventoryItemId.ToString(), inventoryImage = hit.transform.GetComponent<ItemWorld>().inventoryImage });
+                                        inventory.AddItem(new Item { itemType = hit.transform.GetComponent<ItemWorld>().itemType, description = this.inventoryItemId.ToString(), inventoryImage = hit.transform.GetComponent<ItemWorld>().inventoryImage, id = hit.transform.GetComponent<ItemWorld>().id });
                                         Destroy(hit.transform.gameObject);
                                         uiInventory.RefreshInventoryItems();
                                         this.inventoryItemId++;
@@ -192,7 +197,6 @@ namespace Assets.Scripts
                                     {
                                         //Podigni objekt
                                         Debug.Log("Objekt podignut");
-                                        GameObject objektSlike = GameObject.Find("Painting");
                                         objektSlike.GetComponent<Rigidbody>().useGravity = false;
                                         objektSlike.GetComponent<Rigidbody>().detectCollisions = true;
                                         objektSlike.transform.parent = trenutniRoditelj.transform;
@@ -311,7 +315,6 @@ namespace Assets.Scripts
 
             if (Input.GetKeyDown("t"))
             {
-                GameObject objektSlike = GameObject.Find("Painting");
                 objektSlike.GetComponent<Rigidbody>().useGravity = true;
                 objektSlike.transform.localEulerAngles = new Vector3(0, 0, 0);
                 objektSlike.transform.parent = null;
@@ -319,13 +322,36 @@ namespace Assets.Scripts
         }
         private void InventoryKeyManipulation(string number)
         {
-            Item selectedItem = this.inventory.itemList.Where(id => id.description == number).FirstOrDefault();
+            Item selectedItem = this.inventory.GetItemList().Where(id => id.description == number).FirstOrDefault();
 
             if (selectedItem != null)
             {
-                UiInventoryRead.SetActive(true);
-                Transform rawImage = UiInventoryRead.transform.GetChild(0).GetChild(0);
-                rawImage.GetComponent<RawImage>().texture = selectedItem.inventoryImage;
+                if (selectedItem.itemType == Item.ItemType.Key)
+                {
+                    if (_selection != null)
+                    {
+                        if (_selection.name == "CurvedDrawer")
+                        {
+                            switch (selectedItem.id)
+                            {
+                                case 11:
+                                    _selection.GetComponent<BoxCollider>().enabled = false;
+                                    this.CurvedDrawerUnLocked = true;
+                                    Debug.Log("Curved drawer is unlocked.");
+                                    inventory.RemoveItem(selectedItem);
+                                    //uiInventory.RefreshInventoryItems();
+                                    break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    UiInventoryRead.SetActive(true);
+                    Transform rawImage = UiInventoryRead.transform.GetChild(0).GetChild(0);
+                    rawImage.GetComponent<RawImage>().texture = selectedItem.inventoryImage;
+                }
+
             }
         }
     }

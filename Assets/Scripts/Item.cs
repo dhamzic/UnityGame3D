@@ -13,6 +13,7 @@ public class Item
     public ItemType itemType;
     public string description;
     public Texture inventoryImage;
+    public int id;
 
 
     public Sprite GetSprite()
@@ -27,17 +28,7 @@ public class Item
         }
     }
 
-    public Color GetColor()
-    {
-        switch (itemType)
-        {
-            default:
-            case ItemType.Key: return new Color(1, 1, 1);
-            case ItemType.Sunglasses: return new Color(1, 0, 0);
-            case ItemType.CassetteTape: return new Color(0, 0, 1);
-        }
-    }
-
+    //Je li objekt za skupljanje ili je točno 1
     public bool IsStackable()
     {
         switch (itemType)

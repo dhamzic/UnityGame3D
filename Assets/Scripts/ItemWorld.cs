@@ -20,6 +20,7 @@ public class ItemWorld : MonoBehaviour
     public string itemDescription;
     public Texture inventoryImage;
     private SpriteRenderer spriteRenderer;
+    public int id;
 
     //public void SetItem(Item item)
     //{
