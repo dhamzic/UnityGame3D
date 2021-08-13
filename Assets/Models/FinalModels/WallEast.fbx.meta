@@ -3,7 +3,32 @@ guid: fbe94b86efce0d844bde9a8dd07c6bbd
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White_Wall
+    second: {fileID: 2100000, guid: 5573220ca434b7e4dae3f29461cded37, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White_Wall_HiddenMessage
+    second: {fileID: 2806725553441357045, guid: e547d62d5d521a54491fdf1bdecc26e8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: HiddenMessage
+    second: {fileID: 2800000, guid: 54c4fd7ff21c88e4287073e1b0bfc47a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_CinderblockCloseup_Old_1K_ao
+    second: {fileID: 2800000, guid: e534674a535a1b0489ba36124fdeb565, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_CinderblockCloseup_Old_1K_normal
+    second: {fileID: 2800000, guid: ff08a96513da5a8449530821653e23ed, type: 3}
   materials:
     materialImportMode: 1
     materialName: 0

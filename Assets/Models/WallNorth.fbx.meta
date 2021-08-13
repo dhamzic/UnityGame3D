@@ -1,0 +1,204 @@
+fileFormatVersion: 2
+guid: dc6a9e4eaaf4c584b835d00b88a6280c
+ModelImporter:
+  serializedVersion: 20101
+  internalIDToNameTable:
+  - first:
+      74: 868264945117924442
+    second: WallNorth|Button1Action
+  - first:
+      74: 5033666485022355113
+    second: WallNorth|Button2Action
+  - first:
+      74: 1458023055420409337
+    second: WallNorth|Button3Action
+  - first:
+      74: 7988023582419989445
+    second: WallNorth|Button4Action
+  - first:
+      74: -4728805149620903052
+    second: WallNorth|Button5Action
+  - first:
+      74: -837094222824055708
+    second: WallNorth|Button6Action
+  - first:
+      74: 3867672374525679717
+    second: WallNorth|Button7Action
+  - first:
+      74: -7375451166888001467
+    second: WallNorth|Button8Action
+  - first:
+      74: -2446164578066512161
+    second: WallNorth|Button9Action
+  - first:
+      74: 295355697764120545
+    second: WallNorth|DoorOpenFinal
+  - first:
+      74: 7849143486212664297
+    second: WallNorth|LockerHandleOpen
+  - first:
+      74: -4704280276301070996
+    second: WallNorth|SafeOpen
+  - first:
+      74: 5475569077448715523
+    second: WallNorth|WallNorthAction
+  - first:
+      74: 3566168724134875543
+    second: Door|Button1Action
+  - first:
+      74: 2892233372383933280
+    second: Door|Button2Action
+  - first:
+      74: 6921514860641226747
+    second: Door|Button3Action
+  - first:
+      74: -2105838806698552432
+    second: Door|Button4Action
+  - first:
+      74: 8490591024333013893
+    second: Door|Button5Action
+  - first:
+      74: -8657502259392081992
+    second: Door|Button6Action
+  - first:
+      74: 5587199971314374870
+    second: Door|Button7Action
+  - first:
+      74: -152172330498140527
+    second: Door|Button8Action
+  - first:
+      74: -5971144684453747327
+    second: Door|Button9Action
+  - first:
+      74: 1387697177881592279
+    second: Door|DoorOpenFinal
+  - first:
+      74: -7560343887276201631
+    second: Door|LockerHandleOpen
+  - first:
+      74: 1393727655631892392
+    second: Door|SafeOpen
+  - first:
+      74: 4035453928549347094
+    second: Door|WallNorthAction
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DoorFrame
+    second: {fileID: 2100000, guid: 2bb39d8fd9212a14681e0845ee628e54, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White_Wall
+    second: {fileID: 2100000, guid: f9a65fe196c6d8943b25099e97d3af38, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_CinderblockCloseup_Old_1K_ao
+    second: {fileID: 2800000, guid: 3d7677f4859c0384ab6e392d7a68a3fb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_CinderblockCloseup_Old_1K_normal
+    second: {fileID: 2800000, guid: 7b342a6393b64dc4d81a330fe0117d3d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_Wood_Rough_1K_albedo
+    second: {fileID: 2800000, guid: d11603ce725e4dc4fac7dd89b30aa089, type: 3}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

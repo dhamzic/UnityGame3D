@@ -49,6 +49,14 @@ namespace Assets.Scripts
 
         GameObject objektSlike = null;
 
+        GameObject objektKocke = null;
+
+        private GameObject istocniZid = null;
+
+        bool switchTurnedOn = false;
+
+        bool objectRaised = false;
+
         private void Awake()
         {
             inventory = new Inventory();
@@ -61,12 +69,16 @@ namespace Assets.Scripts
             UiInventoryRead.SetActive(false);
 
             this.objektSlike = GameObject.Find("Painting");
+
+            this.objektKocke = GameObject.Find("Cube_A");
             //objektSlike.GetComponent<Rigidbody>().detectCollisions = false;
+
+            istocniZid = GameObject.Find("WallEast");
         }
         private void Start()
         {
             drawerScript = GetComponent<DrawerController>();
-            
+
             //ItemWorld.SpawnItemWorld(new Vector3(436.0165f, -0.1f, -445.9609f), new Item { itemType = Item.ItemType.Key, amount = 1 });
 
             //Dohvati roditelja. Služi za prijenos objekta. Razmak između igrača i objekta prilikom premještanja
@@ -103,7 +115,7 @@ namespace Assets.Scripts
                 Material[] materials = new Material[selectionRenderer.materials.Length];
                 for (int i = 0; i < selectionRenderer.materials.Length; i++)
                 {
-                    materials[i] = selectedObject.defaultMaterials[i];
+                    materials[i] = selectedObject.GetDefaultMaterials()[i];
                 }
                 selectionRenderer.sharedMaterials = materials;
 
@@ -143,7 +155,11 @@ namespace Assets.Scripts
                                 materials[i] = highlightMaterial;
                             }
                             selectionRenderer.sharedMaterials = materials;
+
+
                             //selectionRenderer.material = highlightMaterial;
+
+
 
                         }
                         _selection = selection;
@@ -162,8 +178,51 @@ namespace Assets.Scripts
                             {
                                 case "ObjectSelectable_Door":
                                     {
+                                        //AnimController ac = GameObject.Find("Door").GetComponent<AnimController>();
+                                        //ac.StartDoorAnimation(hit.transform.name);
+                                        //break;
+
                                         AnimController ac = GameObject.Find("Door").GetComponent<AnimController>();
-                                        ac.StartDoorAnimation(hit.transform.name);
+                                        ac.StartDoorAnimation();
+                                        break;
+                                    }
+                                case "ObjectSelectable_Switch":
+                                    {
+                                        AnimController ac = GameObject.Find("Switch").GetComponent<AnimController>();
+                                        ac.StartSwitchAnimation(this.switchTurnedOn);
+
+                                        if (this.switchTurnedOn)
+                                        {
+                                            this.switchTurnedOn = false;
+                                            var wallRenderer = this.istocniZid.GetComponent<Renderer>();
+                                            WallWithHidenInfo wall = this.istocniZid.GetComponent<WallWithHidenInfo>();
+                                            if (wallRenderer != null)
+                                            {
+                                                Material[] materials = new Material[wallRenderer.materials.Length];
+                                                materials[0] = wall.GetDefaultMaterial();
+                                                materials[1] = wall.GetDefaultMaterial();
+                                                wallRenderer.sharedMaterials = materials;
+
+                                                Light sl = GameObject.Find("UvLamp").GetComponent<Light>();
+                                                sl.intensity = 0;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            this.switchTurnedOn = true;
+                                            var wallRenderer = this.istocniZid.GetComponent<Renderer>();
+                                            WallWithHidenInfo wall = this.istocniZid.GetComponent<WallWithHidenInfo>();
+                                            if (wallRenderer != null)
+                                            {
+                                                Material[] materials = new Material[wallRenderer.materials.Length];
+                                                materials[0] = wall.GetDefaultMaterial();
+                                                materials[1] = wall.hiddenMessageMaterial;
+                                                wallRenderer.sharedMaterials = materials;
+
+                                                Light sl = GameObject.Find("UvLamp").GetComponent<Light>();
+                                                sl.intensity = 1.2f;
+                                            }
+                                        }
                                         break;
                                     }
                                 case "ObjectSelectable_Drawer":
@@ -172,6 +231,8 @@ namespace Assets.Scripts
                                         {
                                             AnimController ac = GameObject.Find("DrawerCube").GetComponent<AnimController>();
                                             ac.StartDrawerAnimation(hit.transform.name);
+                                            Light sl = GameObject.Find("DrawerCubeChildLight").GetComponent<Light>();
+                                            sl.intensity = 1.5f;
                                             break;
                                         }
                                         if (CurvedDrawerUnLocked)
@@ -191,6 +252,11 @@ namespace Assets.Scripts
                                         Destroy(hit.transform.gameObject);
                                         uiInventory.RefreshInventoryItems();
                                         this.inventoryItemId++;
+                                        if (hit.transform.name == "SvahiliNote")
+                                        {
+                                            Light sl = GameObject.Find("DrawerCubeChildLight").GetComponent<Light>();
+                                            sl.intensity = 0;
+                                        }
                                         break;
                                     }
                                 case "ObjectSelectable_Painting":
@@ -203,6 +269,32 @@ namespace Assets.Scripts
                                         objektSlike.transform.position = trenutniRoditeljManevriranje.transform.position;
 
                                         objektSlike.transform.localEulerAngles = new Vector3(0, 0, 0);
+                                        break;
+                                    }
+                                case "ObjectSelectable_Cube":
+                                    {
+                                        if (objectRaised == false)
+                                        {
+                                            //Podigni objekt
+                                            Debug.Log("Objekt podignut");
+                                            objektKocke.GetComponent<Rigidbody>().useGravity = false;
+                                            objektKocke.GetComponent<Rigidbody>().detectCollisions = true;
+                                            objektKocke.transform.parent = trenutniRoditelj.transform;
+                                            objektKocke.transform.position = trenutniRoditeljManevriranje.transform.position;
+
+                                            objektKocke.transform.localEulerAngles = new Vector3(0, 0, 0);
+                                            objectRaised = true;
+                                        }
+                                        else {
+
+                                            //TODO: Ne treba biti označen kad ga bacam
+                                            objektKocke.GetComponent<Rigidbody>().useGravity = true;
+                                            objektKocke.transform.localEulerAngles = new Vector3(0, 0, 0);
+                                            objektKocke.transform.parent = null;
+                                            objectRaised = false;
+                                            //Light sl = GameObject.Find("Point Light_1").GetComponent<Light>();
+                                            //sl.intensity = 4;
+                                        }
                                         break;
                                     }
                                 default:

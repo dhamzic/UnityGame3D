@@ -63,11 +63,11 @@ public class AnimController : MonoBehaviour
     {
         anim.Play("Drawer4_Close");
     }
-    public void StartDoorAnimation(string drawerName)
+    public void StartDoorAnimation()
     {
-        //anim.Play("Door_Open");
-        anim.Play("DoorHandleAction");
-        //anim.Play("DoorOpen");
+        //anim.Play("DoorHandleAction");
+        anim.Play("DoorHandleOpen");
+        Debug.Log("DoorHandleOpen");
     }
     public void OpenSafe()
     {
@@ -180,6 +180,18 @@ public class AnimController : MonoBehaviour
             anim.Play("DrawerCube_Open");
         }
 
+    }
+    public void StartSwitchAnimation(bool turnedOn)
+    {
+        if (turnedOn)
+        {
+            anim.Play("TurnOff");
+        }
+        else
+        {
+            anim.Play("TurnOn");
+
+        }
     }
 
 }

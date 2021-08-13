@@ -12,6 +12,9 @@ TagManager:
   - ObjectSelectable_Door
   - ObjectSelectable_Painting
   - ObjectSelectable_SafeButton
+  - Selectable
+  - ObjectSelectable_Switch
+  - ObjectSelectable_Cube
   layers:
   - Default
   - TransparentFX

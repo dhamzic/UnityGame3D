@@ -72,7 +72,7 @@ public class DoorSelectionManager : MonoBehaviour
 
                     if (Input.GetKeyDown("e"))
                     {
-                        doorAnimationScript.StartDoorAnimation(hit.transform.name);
+                        doorAnimationScript.StartDoorAnimation();
                     }
 
                 }
