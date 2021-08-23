@@ -7,7 +7,7 @@ using System;
 public class Stopwatch : MonoBehaviour
 {
     bool timerActive = false;
-    float currentTime;
+    public float currentTime;
     public Text currentTimeText;
 
     // Start is called before the first frame update

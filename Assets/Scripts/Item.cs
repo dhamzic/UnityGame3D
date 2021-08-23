@@ -5,10 +5,12 @@ using UnityEngine;
 public class Item
 {
     public enum ItemType { 
-        Key,
+        SilverKey,
+        GoldenKey,
         Sunglasses,
         CassetteTape,
-        SvahiliNote
+        SvahiliNote,
+        Book
     }
     public ItemType itemType;
     public string description;
@@ -21,10 +23,12 @@ public class Item
         switch (itemType)
         {
             default:
-            case ItemType.Key: return ItemAssets.Instance.keySprite;
+            case ItemType.SilverKey: return ItemAssets.Instance.keySilverSprite;
+            case ItemType.GoldenKey: return ItemAssets.Instance.keyGoldenSprite;
             case ItemType.Sunglasses: return ItemAssets.Instance.sunglassesSprite;
             case ItemType.CassetteTape: return ItemAssets.Instance.CassetteTapeSprite;
             case ItemType.SvahiliNote: return ItemAssets.Instance.SvahiliNoteSprite;
+            case ItemType.Book: return ItemAssets.Instance.BookSprite;
         }
     }
 
@@ -34,7 +38,7 @@ public class Item
         switch (itemType)
         {
             default:
-            case ItemType.Key:
+            case ItemType.GoldenKey:
             case ItemType.Sunglasses:
             case ItemType.CassetteTape:
                 return false;

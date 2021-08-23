@@ -4,6 +4,9 @@ ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable:
   - first:
+      74: -2876342553260808358
+    second: DrawerLeft|BookShelfOpen
+  - first:
       74: 1570313083005768327
     second: DrawerLeft|DrawerLeftClose
   - first:
@@ -16,6 +19,9 @@ ModelImporter:
       74: 608093727615533673
     second: DrawerLeft|DrawerRightOpen
   - first:
+      74: 6792819891735648731
+    second: DrawerRight|BookShelfOpen
+  - first:
       74: 3546787869929839275
     second: DrawerRight|DrawerLeftClose
   - first:
@@ -27,6 +33,21 @@ ModelImporter:
   - first:
       74: 2860877754928113799
     second: DrawerRight|DrawerRightOpen
+  - first:
+      74: 3229921445515456150
+    second: Bookshelf|BookShelfOpen
+  - first:
+      74: 8762881766031234668
+    second: Bookshelf|DrawerLeftClose
+  - first:
+      74: 1231999468069549152
+    second: Bookshelf|DrawerLeftOpen
+  - first:
+      74: -4933527722161628065
+    second: Bookshelf|DrawerRightClose
+  - first:
+      74: -312882441707741437
+    second: Bookshelf|DrawerRightOpen
   externalObjects: {}
   materials:
     materialImportMode: 1

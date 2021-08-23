@@ -15,6 +15,7 @@ TagManager:
   - Selectable
   - ObjectSelectable_Switch
   - ObjectSelectable_Cube
+  - ObjectSelectable_Readable
   layers:
   - Default
   - TransparentFX

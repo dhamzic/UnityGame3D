@@ -16,8 +16,6 @@ public class DoorSelectionManager : MonoBehaviour
 
 
     public AnimController doorAnimationScript;
-    private DrawerController doorScript;
-
 
     private Transform _selection;
 

@@ -63,10 +63,16 @@ public class AnimController : MonoBehaviour
     {
         anim.Play("Drawer4_Close");
     }
+
+    public void StartBookShelfAnimation() {
+        anim.Play("BookShelfOpen");
+        Debug.Log("BookShelf Animation");
+    }
+
     public void StartDoorAnimation()
     {
         //anim.Play("DoorHandleAction");
-        anim.Play("DoorHandleOpen");
+        anim.Play("Door_Open");
         Debug.Log("DoorHandleOpen");
     }
     public void OpenSafe()

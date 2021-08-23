@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 6fbb7dd38031d9647b58e420dc22f655
   - enabled: 1
-    path: Assets/Scenes/Room1.unity
+    path: Assets/Scenes/Caesar's room.unity
     guid: ea6499e2dabf92644803a3c06a723261
   m_configObjects: {}

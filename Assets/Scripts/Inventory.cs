@@ -13,9 +13,12 @@ public class Inventory
     {
         itemList = new List<Item>();
 
-        //AddItem(new Item { itemType = Item.ItemType.Key, description = "Key" });
-        //AddItem(new Item { itemType = Item.ItemType.CassetteTape, amount = 1 });
-        //AddItem(new Item { itemType = Item.ItemType.Sunglasses, amount = 1 });
+        //AddItem(new Item { itemType = Item.ItemType.SilverKey, description = "Key" });
+        //AddItem(new Item { itemType = Item.ItemType.CassetteTape });
+        //AddItem(new Item { itemType = Item.ItemType.Sunglasses });
+        //AddItem(new Item { itemType = Item.ItemType.SilverKey, description = "Key" });
+        //AddItem(new Item { itemType = Item.ItemType.CassetteTape });
+        //AddItem(new Item { itemType = Item.ItemType.Sunglasses });
     }
     public void AddItem(Item item)
     {

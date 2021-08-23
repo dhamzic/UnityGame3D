@@ -13,7 +13,7 @@ public class DrawerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DrawerObject = GameObject.Find("Drawer");
+        DrawerObject = GameObject.Find("CurvedDrawer");
     }
 
     // Update is called once per frame

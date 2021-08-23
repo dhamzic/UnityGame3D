@@ -9,6 +9,7 @@ namespace Assets.Scripts.SelectableObjects
 {
     public class SelectableObject : MonoBehaviour
     {
+        public bool locked;
         private List<Material> defaultMaterials = new List<Material>();
         private void Awake()
         {

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.SelectableObjects;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,23 +23,21 @@ namespace Assets.Scripts
 
 
         private bool CurvedDrawerUnLocked = false;
-        private DrawerController drawerScript;
-        private DrawerController doorScript;
+        private ObjectManipulationText objectManipulation;
 
         //Provjera je li trenutno miš preko objekta koji služi za interakciju
         bool isHovering = false;
         private Transform _selection;
 
-        //Provjera je li PREFAB uključen
-        bool objectInfoTurnedOn = false;
+        ////Provjera je li PREFAB uključen
+        //bool objectInfoTurnedOn = false;
 
         private GameObject UiInventoryCanvas;
         private GameObject UiInventoryRead;
 
         public GameObject trenutniRoditelj;
         public Transform trenutniRoditeljManevriranje;
-        float udaljenost;
-        float snaga = 600;
+
 
         #region Safe
         string safePassword = "";
@@ -49,13 +48,14 @@ namespace Assets.Scripts
 
         GameObject objektSlike = null;
 
-        GameObject objektKocke = null;
 
         private GameObject istocniZid = null;
 
         bool switchTurnedOn = false;
 
         bool objectRaised = false;
+        private GameObject raisedObject = null;
+
 
         private void Awake()
         {
@@ -70,14 +70,13 @@ namespace Assets.Scripts
 
             this.objektSlike = GameObject.Find("Painting");
 
-            this.objektKocke = GameObject.Find("Cube_A");
             //objektSlike.GetComponent<Rigidbody>().detectCollisions = false;
 
             istocniZid = GameObject.Find("WallEast");
         }
         private void Start()
         {
-            drawerScript = GetComponent<DrawerController>();
+            objectManipulation = GetComponent<ObjectManipulationText>();
 
             //ItemWorld.SpawnItemWorld(new Vector3(436.0165f, -0.1f, -445.9609f), new Item { itemType = Item.ItemType.Key, amount = 1 });
 
@@ -85,9 +84,69 @@ namespace Assets.Scripts
             trenutniRoditelj = GameObject.Find("FPC_ObjectHolder");
             trenutniRoditeljManevriranje = trenutniRoditelj.GetComponent<Transform>();
 
+            #region Cylinders
+            GameObject c1 = GameObject.Find("Cylinder_1");
+            cylinder_1 = c1.GetComponent<Cylinder>();
+            GameObject c2 = GameObject.Find("Cylinder_2");
+            cylinder_2 = c2.GetComponent<Cylinder>();
+            GameObject c3 = GameObject.Find("Cylinder_3");
+            cylinder_3 = c3.GetComponent<Cylinder>();
+            GameObject c4 = GameObject.Find("Cylinder_4");
+            cylinder_4 = c4.GetComponent<Cylinder>();
+            GameObject c5 = GameObject.Find("Cylinder_5");
+            cylinder_5 = c5.GetComponent<Cylinder>();
+            GameObject c6 = GameObject.Find("Cylinder_6");
+            cylinder_6 = c6.GetComponent<Cylinder>();
+            #endregion
+
+
+            //PlayerPrefs.SetString("Rezultat","Ovo je prvi rezultat");
+            //PlayerPrefs.Save();
+
+           
         }
+        public IEnumerator WaitCubeDrop()
+        {
+            yield return new WaitForSeconds(1f);
+            raisedObject.tag = "ObjectSelectable_Cube";
+        }
+        public IEnumerator WaitCubeRise()
+        {
+            yield return new WaitForSeconds(0.1f);
+            raisedObject.GetComponent<BoxCollider>().enabled = false;
+        }
+
+        #region Cylinders
+        Cylinder cylinder_1 = null;
+        Cylinder cylinder_2 = null;
+        Cylinder cylinder_3 = null;
+        Cylinder cylinder_4 = null;
+        Cylinder cylinder_5 = null;
+        Cylinder cylinder_6 = null;
+        #endregion
+
+        bool bookShelfOpened = false;
+
         private void Update()
         {
+            CubeCylinderMatch();
+
+            if (objectRaised == true)
+            {
+                if (Input.GetKeyDown("e"))
+                {
+                    //TODO: Ne treba biti označen kad ga bacam
+                    raisedObject.tag = "Untagged";
+                    raisedObject.GetComponent<BoxCollider>().enabled = true;
+                    raisedObject.GetComponent<Rigidbody>().useGravity = true;
+                    raisedObject.transform.localEulerAngles = new Vector3(0, 0, 0);
+                    raisedObject.transform.parent = null;
+                    objectRaised = false;
+                    StartCoroutine("WaitCubeDrop");
+                    //Light sl = GameObject.Find("Point Light_1").GetComponent<Light>();
+                    //sl.intensity = 4;
+                }
+            }
             if (Input.GetKeyDown("i"))
             {
                 if (UiInventoryCanvas.activeInHierarchy == true)
@@ -97,12 +156,16 @@ namespace Assets.Scripts
                 else
                 {
                     UiInventoryCanvas.SetActive(true);
+                    objectManipulation.currentManipulationText.text = "Select Inventory Item By Entering Required ID";
                 }
             }
             if (isHovering == false)
             {
-                //drawerScript.DeleteFloatingText();
-                objectInfoTurnedOn = false;
+                //objectInfoTurnedOn = false;
+                if (UiInventoryCanvas.activeInHierarchy == false)
+                {
+                    objectManipulation.currentManipulationText.text = "";
+                }
             }
 
             if (_selection != null)
@@ -140,6 +203,10 @@ namespace Assets.Scripts
             {
                 if (hit.distance <= 6)
                 {
+                    if (UiInventoryCanvas.activeInHierarchy == false)
+                    {
+                        objectManipulation.ShowFloatingText(hit.transform.name, hit.transform.tag);
+                    }
                     var selection = hit.transform;
                     //if (selection.CompareTag(selectableTag))
                     if (selection.tag.Contains(selectableTag))
@@ -164,11 +231,11 @@ namespace Assets.Scripts
                         }
                         _selection = selection;
 
-                        if (objectInfoTurnedOn == false)
-                        {
-                            //drawerScript.ShowFloatingText();
-                        }
-                        objectInfoTurnedOn = true;
+                        //if (objectInfoTurnedOn == false)
+                        //{
+                        //    objectManipulation.ShowFloatingText(hit.transform.name, hit.transform.tag);
+                        //}
+                        //objectInfoTurnedOn = true;
 
 
                         //Debug.Log("Object hit: " + hit.transform.name);
@@ -182,8 +249,11 @@ namespace Assets.Scripts
                                         //ac.StartDoorAnimation(hit.transform.name);
                                         //break;
 
-                                        AnimController ac = GameObject.Find("Door").GetComponent<AnimController>();
-                                        ac.StartDoorAnimation();
+
+
+
+                                        AnimController ac1 = GameObject.Find("WallNorth").GetComponent<AnimController>();
+                                        ac1.StartDoorAnimation();
                                         break;
                                     }
                                 case "ObjectSelectable_Switch":
@@ -220,7 +290,7 @@ namespace Assets.Scripts
                                                 wallRenderer.sharedMaterials = materials;
 
                                                 Light sl = GameObject.Find("UvLamp").GetComponent<Light>();
-                                                sl.intensity = 1.2f;
+                                                sl.intensity = 0.5f;
                                             }
                                         }
                                         break;
@@ -232,7 +302,7 @@ namespace Assets.Scripts
                                             AnimController ac = GameObject.Find("DrawerCube").GetComponent<AnimController>();
                                             ac.StartDrawerAnimation(hit.transform.name);
                                             Light sl = GameObject.Find("DrawerCubeChildLight").GetComponent<Light>();
-                                            sl.intensity = 1.5f;
+                                            sl.intensity = 1.2f;
                                             break;
                                         }
                                         if (CurvedDrawerUnLocked)
@@ -261,39 +331,52 @@ namespace Assets.Scripts
                                     }
                                 case "ObjectSelectable_Painting":
                                     {
-                                        //Podigni objekt
-                                        Debug.Log("Objekt podignut");
-                                        objektSlike.GetComponent<Rigidbody>().useGravity = false;
-                                        objektSlike.GetComponent<Rigidbody>().detectCollisions = true;
-                                        objektSlike.transform.parent = trenutniRoditelj.transform;
-                                        objektSlike.transform.position = trenutniRoditeljManevriranje.transform.position;
+                                        ////Podigni objekt
+                                        //Debug.Log("Objekt podignut");
+                                        //objektSlike.GetComponent<Rigidbody>().useGravity = false;
+                                        //objektSlike.GetComponent<Rigidbody>().detectCollisions = true;
+                                        //objektSlike.transform.parent = trenutniRoditelj.transform;
+                                        //objektSlike.transform.position = trenutniRoditeljManevriranje.transform.position;
 
-                                        objektSlike.transform.localEulerAngles = new Vector3(0, 0, 0);
+                                        //objektSlike.transform.localEulerAngles = new Vector3(0, 0, 0);
+
+                                        objektSlike.GetComponent<Rigidbody>().useGravity = true;
+                                        //objektSlike.transform.localEulerAngles = new Vector3(0, 0, 30);
+                                        objektSlike.transform.parent = null;
+                                        objektSlike.tag = "Untagged";
                                         break;
                                     }
                                 case "ObjectSelectable_Cube":
                                     {
+                                        GameObject selectedCube = GameObject.Find(hit.transform.name);
                                         if (objectRaised == false)
                                         {
                                             //Podigni objekt
-                                            Debug.Log("Objekt podignut");
-                                            objektKocke.GetComponent<Rigidbody>().useGravity = false;
-                                            objektKocke.GetComponent<Rigidbody>().detectCollisions = true;
-                                            objektKocke.transform.parent = trenutniRoditelj.transform;
-                                            objektKocke.transform.position = trenutniRoditeljManevriranje.transform.position;
+                                            //Debug.Log("Objekt podignut");
+                                            //if (selectedCube.GetComponent<Rigidbody>()== null) {
+                                            //    Rigidbody gameObjectsRigidBody = selectedCube.AddComponent<Rigidbody>();
+                                            //}
+                                            selectedCube.GetComponent<Rigidbody>().useGravity = false;
+                                            selectedCube.GetComponent<Rigidbody>().detectCollisions = true;
+                                            selectedCube.transform.parent = trenutniRoditelj.transform;
+                                            selectedCube.transform.position = trenutniRoditeljManevriranje.transform.position;
 
-                                            objektKocke.transform.localEulerAngles = new Vector3(0, 0, 0);
+                                            selectedCube.transform.localEulerAngles = new Vector3(0, 0, 0);
+                                            //selectedCube.GetComponent<BoxCollider>().enabled = false;
                                             objectRaised = true;
+                                            raisedObject = selectedCube;
+                                            StartCoroutine("WaitCubeRise");
                                         }
-                                        else {
+                                        else
+                                        {
 
-                                            //TODO: Ne treba biti označen kad ga bacam
-                                            objektKocke.GetComponent<Rigidbody>().useGravity = true;
-                                            objektKocke.transform.localEulerAngles = new Vector3(0, 0, 0);
-                                            objektKocke.transform.parent = null;
-                                            objectRaised = false;
-                                            //Light sl = GameObject.Find("Point Light_1").GetComponent<Light>();
-                                            //sl.intensity = 4;
+                                            ////TODO: Ne treba biti označen kad ga bacam
+                                            //selectedCube.GetComponent<Rigidbody>().useGravity = true;
+                                            //selectedCube.transform.localEulerAngles = new Vector3(0, 0, 0);
+                                            //selectedCube.transform.parent = null;
+                                            //objectRaised = false;
+                                            ////Light sl = GameObject.Find("Point Light_1").GetComponent<Light>();
+                                            ////sl.intensity = 4;
                                         }
                                         break;
                                     }
@@ -405,34 +488,67 @@ namespace Assets.Scripts
             }
 
 
-            if (Input.GetKeyDown("t"))
+            //if (Input.GetKeyDown("t"))
+            //{
+            //    objektSlike.GetComponent<Rigidbody>().useGravity = true;
+            //    objektSlike.transform.localEulerAngles = new Vector3(0, 0, 0);
+            //    objektSlike.transform.parent = null;
+            //}
+        }
+
+        private void CubeCylinderMatch()
+        {
+            if (bookShelfOpened == false)
             {
-                objektSlike.GetComponent<Rigidbody>().useGravity = true;
-                objektSlike.transform.localEulerAngles = new Vector3(0, 0, 0);
-                objektSlike.transform.parent = null;
+                if (cylinder_1.match && cylinder_2.match && cylinder_3.match && cylinder_4.match && cylinder_5.match && cylinder_6.match)
+                {
+                    Debug.Log("FULL MATCH");
+                    bookShelfOpened = true;
+
+                    AnimController bsa = GameObject.Find("Bookshelf").GetComponent<AnimController>();
+                    bsa.StartBookShelfAnimation();
+
+                    //TODO: Provjera ključa za izlaz
+
+                    //StartCoroutine("WaitBookShelfOpen");
+                }
             }
         }
+
+
         private void InventoryKeyManipulation(string number)
         {
             Item selectedItem = this.inventory.GetItemList().Where(id => id.description == number).FirstOrDefault();
 
             if (selectedItem != null)
             {
-                if (selectedItem.itemType == Item.ItemType.Key)
+                if (selectedItem.itemType == Item.ItemType.GoldenKey || selectedItem.itemType == Item.ItemType.SilverKey)
                 {
                     if (_selection != null)
                     {
-                        if (_selection.name == "CurvedDrawer")
+                        if (_selection.name == "CurvedDrawer" || _selection.name == "Drawer1" || _selection.name == "Drawer2" || _selection.name == "Drawer3" || _selection.name == "Drawer4")
                         {
-                            switch (selectedItem.id)
+                            if (selectedItem.id == 11)
                             {
-                                case 11:
-                                    _selection.GetComponent<BoxCollider>().enabled = false;
-                                    this.CurvedDrawerUnLocked = true;
-                                    Debug.Log("Curved drawer is unlocked.");
-                                    inventory.RemoveItem(selectedItem);
-                                    //uiInventory.RefreshInventoryItems();
-                                    break;
+                                //_selection.GetComponent<BoxCollider>().enabled = false;
+                                this.CurvedDrawerUnLocked = true;
+                                SelectableObject selectedObject = GameObject.Find("CurvedDrawer").GetComponent<SelectableObject>();
+                                selectedObject.locked = false;
+                                Debug.Log("Curved drawer is unlocked.");
+                                inventory.RemoveItem(selectedItem);
+                                objectManipulation.ShowFloatingText(_selection.name, _selection.tag);
+                            }
+                            else
+                            {
+                                StartCoroutine(objectManipulation.ShowWarningText("Wrong Key!"));
+                            }
+                        }
+                        else if (_selection.name == "Door")
+                        {
+                            if (selectedItem.id == 22)
+                            {
+                                AnimController ac1 = GameObject.Find("WallNorth").GetComponent<AnimController>();
+                                ac1.StartDoorAnimation();
                             }
                         }
                     }

@@ -14,8 +14,10 @@ public class ItemAssets : MonoBehaviour
         Instance = this;
     }
 
-    public Sprite keySprite;
+    public Sprite keySilverSprite;
+    public Sprite keyGoldenSprite;
     public Sprite sunglassesSprite;
     public Sprite CassetteTapeSprite;
     public Sprite SvahiliNoteSprite;
+    public Sprite BookSprite;
 }
