@@ -26,6 +26,7 @@ public class FPController : MonoBehaviour
     float x;
     float z;
 
+    public bool gameEnded = false;
     bool playingWalking = false;
     bool previouslyGrounded = true;
 
@@ -93,14 +94,17 @@ public class FPController : MonoBehaviour
 
     void PlayFootStepAudio()
     {
-        AudioSource audioSource = new AudioSource();
-        int n = Random.Range(1, footsteps.Length);
+        if (gameEnded==false)
+        {
+            AudioSource audioSource = new AudioSource();
+            int n = Random.Range(1, footsteps.Length);
 
-        audioSource = footsteps[n];
-        audioSource.Play();
-        footsteps[n] = footsteps[0];
-        footsteps[0] = audioSource;
-        playingWalking = true;
+            audioSource = footsteps[n];
+            audioSource.Play();
+            footsteps[n] = footsteps[0];
+            footsteps[0] = audioSource;
+            playingWalking = true; 
+        }
     }
 
 

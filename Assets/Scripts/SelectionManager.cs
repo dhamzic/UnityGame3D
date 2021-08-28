@@ -21,6 +21,7 @@ namespace Assets.Scripts
 
         private Inventory inventory;
 
+        private bool DoorUnLocked = false;
 
         private bool CurvedDrawerUnLocked = false;
         private ObjectManipulationText objectManipulation;
@@ -68,9 +69,7 @@ namespace Assets.Scripts
             UiInventoryRead = GameObject.Find("UiInventoryRead");
             UiInventoryRead.SetActive(false);
 
-            this.objektSlike = GameObject.Find("Painting");
-
-            //objektSlike.GetComponent<Rigidbody>().detectCollisions = false;
+            objektSlike = GameObject.Find("Painting");
 
             istocniZid = GameObject.Find("WallEast");
         }
@@ -103,7 +102,7 @@ namespace Assets.Scripts
             //PlayerPrefs.SetString("Rezultat","Ovo je prvi rezultat");
             //PlayerPrefs.Save();
 
-           
+
         }
         public IEnumerator WaitCubeDrop()
         {
@@ -127,26 +126,39 @@ namespace Assets.Scripts
 
         bool bookShelfOpened = false;
 
+        private void ThrowCube()
+        {
+
+        }
+
         private void Update()
         {
+            //Provjerava je li došlo do pogotka između
+            //Bačenih kocki i ležećih cilindra
             CubeCylinderMatch();
 
+            //Vrijedi za korištenje kocki.
+            //Ako se kocka trenutno nosi i slijedi
+            //njeno bacanje, potrebno je ponovno uključiti
+            //opcije BoxCollider-a, Rigidbody-a.
             if (objectRaised == true)
             {
                 if (Input.GetKeyDown("e"))
                 {
-                    //TODO: Ne treba biti označen kad ga bacam
                     raisedObject.tag = "Untagged";
                     raisedObject.GetComponent<BoxCollider>().enabled = true;
                     raisedObject.GetComponent<Rigidbody>().useGravity = true;
                     raisedObject.transform.localEulerAngles = new Vector3(0, 0, 0);
                     raisedObject.transform.parent = null;
                     objectRaised = false;
+                    //Pričekaj da kocka padne kako bi ponovno mogla biti
+                    //selektirana jer ne želimo da je korisniku tijekom
+                    //nošenja stalno highlight-ana kocka
                     StartCoroutine("WaitCubeDrop");
-                    //Light sl = GameObject.Find("Point Light_1").GetComponent<Light>();
-                    //sl.intensity = 4;
                 }
             }
+
+            //Korištenje Inventory-a
             if (Input.GetKeyDown("i"))
             {
                 if (UiInventoryCanvas.activeInHierarchy == true)
@@ -159,6 +171,9 @@ namespace Assets.Scripts
                     objectManipulation.currentManipulationText.text = "Select Inventory Item By Entering Required ID";
                 }
             }
+
+            //Ako korisnik nije selektirao niti jedan objekt
+            //sakri ponuđeni tekst za manipulaciju.
             if (isHovering == false)
             {
                 //objectInfoTurnedOn = false;
@@ -168,6 +183,7 @@ namespace Assets.Scripts
                 }
             }
 
+            //Vraća prvotne teksture selektiranih objekata
             if (_selection != null)
             {
                 var selectionRenderer = _selection.GetComponent<Renderer>();
@@ -182,37 +198,34 @@ namespace Assets.Scripts
                 }
                 selectionRenderer.sharedMaterials = materials;
 
-                //Material[] materials = new Material[selectionRenderer.materials.Length];
-                //for (int i = 0; i < selectionRenderer.materials.Length; i++)
-                //{
-                //    materials[i] = defaultMaterial;
-                //}
-                //selectionRenderer.sharedMaterials = materials;
-
-
-
-
-                //selectionRenderer.material = defaultMaterial;
                 _selection = null;
             }
 
+            //Ciljnik za selektiranje točno na vertikalnoj i horizontalnoj sredini
             var ray = Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f));
             //var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+            //Ukoliko je fokusiran objekt koji ima box collider
             if (Physics.Raycast(ray, out hit))
             {
+                //Udaljenost od fokusiranog objekta
                 if (hit.distance <= 6)
                 {
+                    Debug.Log("Objekt je fokusiran: " + hit.transform.name);
+
+                    //Prikaži tekst manipulacije objekta
                     if (UiInventoryCanvas.activeInHierarchy == false)
                     {
                         objectManipulation.ShowFloatingText(hit.transform.name, hit.transform.tag);
                     }
                     var selection = hit.transform;
-                    //if (selection.CompareTag(selectableTag))
+
+                    //Ukoliko je fokusirani objekt kategorije manipulacije
                     if (selection.tag.Contains(selectableTag))
                     {
                         isHovering = true;
 
+                        //Fokusirani objekt dobiva žuti material
                         var selectionRenderer = selection.GetComponent<Renderer>();
                         if (selectionRenderer != null)
                         {
@@ -222,23 +235,10 @@ namespace Assets.Scripts
                                 materials[i] = highlightMaterial;
                             }
                             selectionRenderer.sharedMaterials = materials;
-
-
-                            //selectionRenderer.material = highlightMaterial;
-
-
-
                         }
                         _selection = selection;
 
-                        //if (objectInfoTurnedOn == false)
-                        //{
-                        //    objectManipulation.ShowFloatingText(hit.transform.name, hit.transform.tag);
-                        //}
-                        //objectInfoTurnedOn = true;
-
-
-                        //Debug.Log("Object hit: " + hit.transform.name);
+                        //Ukoliko je za fokusirani objekt pritisnuta tipka e 
                         if (Input.GetKeyDown("e"))
                         {
                             switch (hit.transform.tag)
@@ -248,12 +248,20 @@ namespace Assets.Scripts
                                         //AnimController ac = GameObject.Find("Door").GetComponent<AnimController>();
                                         //ac.StartDoorAnimation(hit.transform.name);
                                         //break;
+                                        //AnimController ac1 = GameObject.Find("WallNorth").GetComponent<AnimController>();
+                                        //ac1.StartDoorAnimation();
 
-
-
-
-                                        AnimController ac1 = GameObject.Find("WallNorth").GetComponent<AnimController>();
-                                        ac1.StartDoorAnimation();
+                                        //Provjera jesu li vrata otključana
+                                        //Ako jesu, pokreni animaciju otvaranja
+                                        if (DoorUnLocked)
+                                        {
+                                            AnimController ac1 = GameObject.Find("WallNorth").GetComponent<AnimController>();
+                                            ac1.StartDoorAnimation();
+                                        }
+                                        else
+                                        {
+                                            Debug.Log("Door is locked.");
+                                        }
                                         break;
                                     }
                                 case "ObjectSelectable_Switch":
@@ -261,11 +269,14 @@ namespace Assets.Scripts
                                         AnimController ac = GameObject.Find("Switch").GetComponent<AnimController>();
                                         ac.StartSwitchAnimation(this.switchTurnedOn);
 
+                                        //Ukoliko je prekidač pritisnut tj. svjetlo upaljeno
                                         if (this.switchTurnedOn)
                                         {
+                                            //Ugasi prekidač
                                             this.switchTurnedOn = false;
                                             var wallRenderer = this.istocniZid.GetComponent<Renderer>();
                                             WallWithHidenInfo wall = this.istocniZid.GetComponent<WallWithHidenInfo>();
+                                            //Vrati zidu stari materijal (sakrij skrivenu poruku) i ugasi UV lampu
                                             if (wallRenderer != null)
                                             {
                                                 Material[] materials = new Material[wallRenderer.materials.Length];
@@ -279,6 +290,7 @@ namespace Assets.Scripts
                                         }
                                         else
                                         {
+                                            //Paljenje UV lampe i pokazivanje skrivene poruke
                                             this.switchTurnedOn = true;
                                             var wallRenderer = this.istocniZid.GetComponent<Renderer>();
                                             WallWithHidenInfo wall = this.istocniZid.GetComponent<WallWithHidenInfo>();
@@ -299,12 +311,14 @@ namespace Assets.Scripts
                                     {
                                         if (hit.transform.name.Contains("Cube"))
                                         {
+                                            //Upali svjetlo u ladici da se bolje vidi papirić koji se tamo nalazi
                                             AnimController ac = GameObject.Find("DrawerCube").GetComponent<AnimController>();
                                             ac.StartDrawerAnimation(hit.transform.name);
                                             Light sl = GameObject.Find("DrawerCubeChildLight").GetComponent<Light>();
                                             sl.intensity = 1.2f;
                                             break;
                                         }
+                                        //Provjera je li ormarić zaključan
                                         if (CurvedDrawerUnLocked)
                                         {
                                             AnimController ac = GameObject.Find("CurvedDrawer").GetComponent<AnimController>();
@@ -316,12 +330,16 @@ namespace Assets.Scripts
                                         }
                                         break;
                                     }
+                                //Objekti koji se skupljaju u Inventory
                                 case "ObjectSelectable_Inventory":
                                     {
                                         inventory.AddItem(new Item { itemType = hit.transform.GetComponent<ItemWorld>().itemType, description = this.inventoryItemId.ToString(), inventoryImage = hit.transform.GetComponent<ItemWorld>().inventoryImage, id = hit.transform.GetComponent<ItemWorld>().id });
+                                        //Nakon što je objekt prikupljen potrebno ga je uništiti iz scene
                                         Destroy(hit.transform.gameObject);
+                                        //Osvježi inventory kako bi prikazao novo prikupljeni objekt
                                         uiInventory.RefreshInventoryItems();
                                         this.inventoryItemId++;
+                                        //Ugasi svjetlo u ladici
                                         if (hit.transform.name == "SvahiliNote")
                                         {
                                             Light sl = GameObject.Find("DrawerCubeChildLight").GetComponent<Light>();
@@ -340,6 +358,7 @@ namespace Assets.Scripts
 
                                         //objektSlike.transform.localEulerAngles = new Vector3(0, 0, 0);
 
+                                        //Baci sliku na pod
                                         objektSlike.GetComponent<Rigidbody>().useGravity = true;
                                         //objektSlike.transform.localEulerAngles = new Vector3(0, 0, 30);
                                         objektSlike.transform.parent = null;
@@ -349,6 +368,8 @@ namespace Assets.Scripts
                                 case "ObjectSelectable_Cube":
                                     {
                                         GameObject selectedCube = GameObject.Find(hit.transform.name);
+                                        //Ako kocka nije podignut, dopusti podizanje
+                                        //Sprijeci podizanje kocke ukoliko je već podignuta
                                         if (objectRaised == false)
                                         {
                                             //Podigni objekt
@@ -356,6 +377,8 @@ namespace Assets.Scripts
                                             //if (selectedCube.GetComponent<Rigidbody>()== null) {
                                             //    Rigidbody gameObjectsRigidBody = selectedCube.AddComponent<Rigidbody>();
                                             //}
+
+                                            //Ugasi detektiranje kolizije kako ne bi zapinjao sa kockom prilikom nošenja
                                             selectedCube.GetComponent<Rigidbody>().useGravity = false;
                                             selectedCube.GetComponent<Rigidbody>().detectCollisions = true;
                                             selectedCube.transform.parent = trenutniRoditelj.transform;
@@ -365,7 +388,13 @@ namespace Assets.Scripts
                                             //selectedCube.GetComponent<BoxCollider>().enabled = false;
                                             objectRaised = true;
                                             raisedObject = selectedCube;
+
+                                            //Pričekaj da se kocka digne pa tek onda ugasi collider
+                                            //Razlog tome je što cilindar za detektiranje kolizije
+                                            //ne prepoznaje da je objekt maknut sa istog ukoliko ne postoji collider
+                                            //Zato se čeka 0.1s da se kocka digne pa se tek onda collider ugasi
                                             StartCoroutine("WaitCubeRise");
+
                                         }
                                         else
                                         {
@@ -380,21 +409,32 @@ namespace Assets.Scripts
                                         }
                                         break;
                                     }
+                                case "ObjectSelectable_Readable":
+                                    {
+                                        UiInventoryRead.SetActive(true);
+                                        Transform rawImage = UiInventoryRead.transform.GetChild(0).GetChild(0);
+                                        ItemWorld iw = hit.transform.GetComponent<ItemWorld>();
+                                        rawImage.GetComponent<RawImage>().texture = iw.inventoryImage;
+                                        break;
+                                    }
                                 default:
                                     break;
                             }
                         }
+                        //Detekcija lijevog klika miša
                         else if (Input.GetMouseButtonDown(0))
                         {
                             switch (hit.transform.tag)
                             {
+                                //Manipulacija tipkama sefa.
                                 case "ObjectSelectable_SafeButton":
                                     {
                                         if (safeIsOpened == false)
                                         {
+                                            //Pokreni animaciju tipke sefa
                                             AnimController ac = GameObject.Find("WallWithSafe").GetComponent<AnimController>();
                                             ac.PressButton(hit.transform.name[hit.transform.name.Length - 1].ToString());
-                                            //Animacija gumba
+
 
                                             Light ul = GameObject.Find("UnsuccessLight").GetComponent<Light>();
                                             if (ul.intensity > 0)
@@ -408,6 +448,7 @@ namespace Assets.Scripts
                                             if (this.safePassword.Length == 4)
                                             {
                                                 bool validPass = Safe.CheckPassword(this.safePassword);
+                                                //Ako je ispravna lozinka, upali zeleno svjetlo
                                                 if (validPass)
                                                 {
                                                     Light l = GameObject.Find("SuccessLight").GetComponent<Light>();
@@ -420,6 +461,7 @@ namespace Assets.Scripts
                                                     Light sl = GameObject.Find("SafeLight").GetComponent<Light>();
                                                     sl.intensity = 3;
                                                 }
+                                                //Ako lozinka nije ispravna, upali crveno svjetlo
                                                 else
                                                 {
                                                     ul.intensity = 3;
@@ -429,13 +471,10 @@ namespace Assets.Scripts
                                                 this.safePassword = "";
                                             }
                                         }
-
-
                                         break;
                                     }
                             }
                         }
-
                     }
                     else
                     {
@@ -454,6 +493,7 @@ namespace Assets.Scripts
             }
 
 
+            #region Inventory korištenje
             if (Input.GetKeyDown("1"))
             {
                 if (UiInventoryCanvas.activeInHierarchy == true)
@@ -484,16 +524,10 @@ namespace Assets.Scripts
             }
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
+                Cursor.visible = false;
                 UiInventoryRead.SetActive(false);
             }
-
-
-            //if (Input.GetKeyDown("t"))
-            //{
-            //    objektSlike.GetComponent<Rigidbody>().useGravity = true;
-            //    objektSlike.transform.localEulerAngles = new Vector3(0, 0, 0);
-            //    objektSlike.transform.parent = null;
-            //}
+            #endregion
         }
 
         private void CubeCylinderMatch()
@@ -505,9 +539,11 @@ namespace Assets.Scripts
                     Debug.Log("FULL MATCH");
                     bookShelfOpened = true;
 
+
                     AnimController bsa = GameObject.Find("Bookshelf").GetComponent<AnimController>();
                     bsa.StartBookShelfAnimation();
-
+                    GameObject d = GameObject.Find("Door");
+                    d.tag = "ObjectSelectable_Door";
                     //TODO: Provjera ključa za izlaz
 
                     //StartCoroutine("WaitBookShelfOpen");
@@ -547,8 +583,16 @@ namespace Assets.Scripts
                         {
                             if (selectedItem.id == 22)
                             {
-                                AnimController ac1 = GameObject.Find("WallNorth").GetComponent<AnimController>();
-                                ac1.StartDoorAnimation();
+                                this.DoorUnLocked = true;
+                                SelectableObject selectedObject = GameObject.Find("Door").GetComponent<SelectableObject>();
+                                selectedObject.locked = false;
+                                Debug.Log("Door is unlocked.");
+                                inventory.RemoveItem(selectedItem);
+                                StartCoroutine(objectManipulation.ShowWarningText("Get Out!"));
+                            }
+                            else
+                            {
+                                StartCoroutine(objectManipulation.ShowWarningText("Wrong Key!"));
                             }
                         }
                     }

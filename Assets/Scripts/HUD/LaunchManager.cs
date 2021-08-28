@@ -4,9 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.HUD;
+using Assets.Scripts.Memory;
+using System;
+using System.Linq;
 
 public class LaunchManager : MonoBehaviour
 {
+    public List<Data> resultList = new List<Data>();
     public InputField playerName;
     private List<Room> listOfRooms = new List<Room>();
     private int currentListIndex = 0;
@@ -15,9 +19,15 @@ public class LaunchManager : MonoBehaviour
     Text roomText;
     Text bestTimeText;
 
+    GameObject leaderBoardPanel;
+
 
     void Start()
     {
+        leaderBoardPanel = GameObject.Find("TablePanel");
+        leaderBoardPanel.SetActive(false);
+
+        //LoadResultsFromMemory();
         this.GetRooms();
 
         if (PlayerPrefs.HasKey("PlayerName"))
@@ -54,8 +64,10 @@ public class LaunchManager : MonoBehaviour
         roomText = GameObject.Find("UiRoomText").GetComponent<Text>();
         roomText.text = "Room: " + this.listOfRooms[0].Name;
 
-        bestTimeText = GameObject.Find("UiBestTimeText").GetComponent<Text>();
-        bestTimeText.text = "Best time: " + this.listOfRooms[0].BestTime.ToString();
+        //bestTimeText = GameObject.Find("UiBestTimeText").GetComponent<Text>();
+        //bestTimeText.text = "Best time: " + this.listOfRooms[0].BestTime.ToString();
+
+
     }
 
     public void NextRoom()
@@ -84,18 +96,62 @@ public class LaunchManager : MonoBehaviour
         }
         roomImage.sprite = this.listOfRooms[currentListIndex].Logo;
         roomText.text = "Room: " + this.listOfRooms[currentListIndex].Name;
-        bestTimeText.text = "Best time: " + this.listOfRooms[currentListIndex].BestTime.ToString();
+        //bestTimeText.text = "Best time: " + this.listOfRooms[currentListIndex].BestTime.ToString();
     }
 
     public void ConnectNewScene()
     {
-        SceneManager.LoadScene("Room1");
+        SceneManager.LoadScene("Caesar's room");
     }
 
+    public void LoadResultsFromMemory()
+    {
+        string resultsJson = PlayerPrefs.GetString("Result");
+        if (!String.IsNullOrEmpty(resultsJson))
+        {
+            MemoryData md = JsonUtility.FromJson<MemoryData>(resultsJson);
+            this.resultList = md.resultList;
+        }
+        leaderBoardPanel.SetActive(true);
+        ShowResults(this.listOfRooms[currentListIndex].Name);
+    }
+    private void ShowResults(string roomName)
+    {
+        List<Data> resultsFromSpecficRoom = this.resultList.Where(n => n.RoomName == roomName).OrderBy(t => t.Time).Take(10).ToList();
+
+        Text positionText = GameObject.Find("UiPositionText").GetComponent<Text>();
+        Text timeText = GameObject.Find("UiTimeText").GetComponent<Text>();
+        Text nameText = GameObject.Find("UiNameText").GetComponent<Text>();
+
+        roomText.text = "";
+        positionText.text = "";
+        timeText.text = "";
+        nameText.text = "";
+
+        int count = 1;
+        foreach (Data result in resultsFromSpecficRoom)
+        {
+            TimeSpan time = TimeSpan.FromSeconds(result.Time);
+            //string row = count + ". " + time.ToString(@"mm\:ss\:fff") + "; " + result.PlayerName;
+
+            positionText.text = positionText.text + count + ". " + "\n";
+            timeText.text = timeText.text + time.ToString(@"mm\:ss\:fff") + "\n";
+            nameText.text = nameText.text + result.PlayerName + "\n";
+            count++;
+        }
+    }
+
+    public void EraseData()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            leaderBoardPanel.SetActive(false);
+        }
     }
 }

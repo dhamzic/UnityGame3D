@@ -18,7 +18,6 @@ namespace Assets.Scripts
             {
                 correct = true;
             }
-
             return correct;
         }
     }

@@ -16,7 +16,7 @@ namespace Assets.Scripts.SelectableObjects
         void Start()
         {
         }
-        
+
         public void ShowFloatingText(string objectName, string objectTag)
         {
             string text = "";
@@ -52,9 +52,23 @@ namespace Assets.Scripts.SelectableObjects
                 case "ObjectSelectable_Inventory":
                     {
                         text = "Press E To Pick Up";
-                        if (objectName == "Book")
+                        break;
+                    }
+                case "ObjectSelectable_Readable": {
+                        text = "Press E To Read";
+                        break;
+                    }
+                case "ObjectSelectable_Door":
+                    {
+                        text = "Press E To Open Door";
+                        if (objectName == "Door")
                         {
-                            text = "Press E To Read";
+                            GameObject door = GameObject.Find(objectName);
+                            SelectableObject selectedObject = door.GetComponent<SelectableObject>();
+                            if (selectedObject.locked == true)
+                            {
+                                text = "Door Is Locked. Press I To Check Your Inventory";
+                            }
                         }
                         break;
                     }
