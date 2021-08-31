@@ -75,6 +75,16 @@ public class AnimController : MonoBehaviour
         anim.Play("Door_Open");
         Debug.Log("DoorHandleOpen");
     }
+    public void OpenShelfAnimation()
+    {
+        anim.Play("OpenShelf");
+        Debug.Log("OpenShelf");
+    }
+    public void PlayMorseCode()
+    {
+        anim.Play("PlayButton");
+        Debug.Log("PlayMorseCode");
+    }
     public void OpenSafe()
     {
         anim.Play("Safe_HandleOpen");

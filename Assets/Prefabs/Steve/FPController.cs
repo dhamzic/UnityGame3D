@@ -11,8 +11,7 @@ public class FPController : MonoBehaviour
     public AudioSource land;
 
     float speed = 0.1f;
-    float Xsensitivity = 2;
-    float Ysensitivity = 2;
+    float sensitivity = 2;
     float MinimumX = -90;
     float MaximumX = 90;
     Rigidbody rb;
@@ -54,9 +53,6 @@ public class FPController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-            anim.SetBool("arm", !anim.GetBool("arm"));
-
         if (Mathf.Abs(x) > 0 || Mathf.Abs(z) > 0)
         {
             if (!anim.GetBool("walking"))
@@ -94,7 +90,7 @@ public class FPController : MonoBehaviour
 
     void PlayFootStepAudio()
     {
-        if (gameEnded==false)
+        if (gameEnded == false)
         {
             AudioSource audioSource = new AudioSource();
             int n = Random.Range(1, footsteps.Length);
@@ -103,29 +99,37 @@ public class FPController : MonoBehaviour
             audioSource.Play();
             footsteps[n] = footsteps[0];
             footsteps[0] = audioSource;
-            playingWalking = true; 
+            playingWalking = true;
         }
     }
 
 
     void FixedUpdate()
     {
-        float yRot = Input.GetAxis("Mouse X") * Ysensitivity;
-        float xRot = Input.GetAxis("Mouse Y") * Xsensitivity;
+        //Micanje miša lijevo desno. Sensitivity, koliko pokazivač miša brzo respondira prilikom micanja miša
+        float yRot = Input.GetAxis("Mouse X") * sensitivity;
+        float xRot = Input.GetAxis("Mouse Y") * sensitivity;
 
+        //Središnji fokuser gore dolje
         cameraRot *= Quaternion.Euler(-xRot, 0, 0);
+        //Središnji fokuser lijevo desno
         characterRot *= Quaternion.Euler(0, yRot, 0);
 
+        //Zabrani punu rotaciju po x osi središnjeg fokusera
         cameraRot = ClampRotationAroundXAxis(cameraRot);
 
         this.transform.localRotation = characterRot;
         cam.transform.localRotation = cameraRot;
 
+        //Lijevo Desno na tipkovnici hodanje
         x = Input.GetAxis("Horizontal") * speed;
+        //Gore Dolje na tipkovnici hodanje 
         z = Input.GetAxis("Vertical") * speed;
 
+        //Nova pozicija igrača
         transform.position += this.transform.forward * z + cam.transform.right * x;
 
+        //Fokuser miša
         UpdateCursorLock();
     }
 

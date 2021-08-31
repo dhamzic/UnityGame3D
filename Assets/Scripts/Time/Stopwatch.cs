@@ -10,15 +10,13 @@ public class Stopwatch : MonoBehaviour
     public float currentTime;
     public Text currentTimeText;
 
-    // Start is called before the first frame update
     void Start()
     {
-        //Sekunde
+        //Postavljanje trenutno vremena na 0
         currentTime = 0;
-        StartTimer();
+        //Pokretanje štoperice
+        StartStopwatch();
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (timerActive == true)
@@ -26,15 +24,17 @@ public class Stopwatch : MonoBehaviour
             //-Time.deltaTime jer 60fps nekad zna biti varijabilan zbog rada CPU-a
             currentTime = currentTime + Time.deltaTime;
         }
-
+        //Pretvorba float tipa podatka u oblik vremena razumljiv igraču
         TimeSpan time = TimeSpan.FromSeconds(currentTime);
         currentTimeText.text = time.ToString(@"mm\:ss\:fff");
     }
-    public void StartTimer()
+    //Početak igre
+    public void StartStopwatch()
     {
         timerActive = true;
     }
-    public void StopTimer()
+    //Zaustavljanje štoperice (Gotova Igra)
+    public void StopStopwatch()
     {
         timerActive = false;
     }

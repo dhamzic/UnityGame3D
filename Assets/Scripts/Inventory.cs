@@ -13,10 +13,10 @@ public class Inventory
     {
         itemList = new List<Item>();
 
-        //AddItem(new Item { itemType = Item.ItemType.SilverKey, description = "Key" });
+        //AddItem(new Item { itemType = Item.ItemType.SilverKey, actionKey = "Key" });
         //AddItem(new Item { itemType = Item.ItemType.CassetteTape });
         //AddItem(new Item { itemType = Item.ItemType.Sunglasses });
-        //AddItem(new Item { itemType = Item.ItemType.SilverKey, description = "Key" });
+        //AddItem(new Item { itemType = Item.ItemType.SilverKey, actionKey = "Key" });
         //AddItem(new Item { itemType = Item.ItemType.CassetteTape });
         //AddItem(new Item { itemType = Item.ItemType.Sunglasses });
     }
@@ -24,7 +24,6 @@ public class Inventory
     {
         itemList.Add(item);
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
-        Debug.Log(item.itemType.ToString() + " has been collected in the Inventory. Current list count: " + this.itemList.Count + "");
     }
 
     public List<Item> GetItemList()
@@ -34,25 +33,7 @@ public class Inventory
 
     public void RemoveItem(Item item)
     {
-        if (item.IsStackable())
-        {
-            Item itemInInventory = null;
-            foreach (Item inventoryItem in this.itemList)
-            {
-                if (inventoryItem.itemType == item.itemType)
-                {
-                    itemInInventory = inventoryItem;
-                }
-            }
-            if (itemInInventory != null)
-            {
-                itemList.Remove(itemInInventory);
-            }
-        }
-        else
-        {
-            itemList.Remove(item);
-        }
+        itemList.Remove(item);
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 }

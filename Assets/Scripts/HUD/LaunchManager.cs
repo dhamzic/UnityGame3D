@@ -45,14 +45,12 @@ public class LaunchManager : MonoBehaviour
         Room room1 = new Room()
         {
             Name = "Caesar's room",
-            Logo = Resources.Load("Room1_Image", typeof(Sprite)) as Sprite,
-            BestTime = 2.23f
+            Logo = Resources.Load("Room1_Image", typeof(Sprite)) as Sprite
         };
         Room room2 = new Room()
         {
             Name = "NoName room",
-            Logo = Resources.Load("Room2_Image", typeof(Sprite)) as Sprite,
-            BestTime = 5.32f
+            Logo = Resources.Load("Room2_Image", typeof(Sprite)) as Sprite
         };
         listOfRooms.Add(room1);
         listOfRooms.Add(room2);
@@ -63,11 +61,6 @@ public class LaunchManager : MonoBehaviour
 
         roomText = GameObject.Find("UiRoomText").GetComponent<Text>();
         roomText.text = "Room: " + this.listOfRooms[0].Name;
-
-        //bestTimeText = GameObject.Find("UiBestTimeText").GetComponent<Text>();
-        //bestTimeText.text = "Best time: " + this.listOfRooms[0].BestTime.ToString();
-
-
     }
 
     public void NextRoom()
@@ -82,7 +75,6 @@ public class LaunchManager : MonoBehaviour
         }
         roomImage.sprite = this.listOfRooms[currentListIndex].Logo;
         roomText.text = "Room: " + this.listOfRooms[currentListIndex].Name;
-        bestTimeText.text = "Best time: " + this.listOfRooms[currentListIndex].BestTime.ToString();
     }
     public void PreviousRoom()
     {
@@ -96,7 +88,6 @@ public class LaunchManager : MonoBehaviour
         }
         roomImage.sprite = this.listOfRooms[currentListIndex].Logo;
         roomText.text = "Room: " + this.listOfRooms[currentListIndex].Name;
-        //bestTimeText.text = "Best time: " + this.listOfRooms[currentListIndex].BestTime.ToString();
     }
 
     public void ConnectNewScene()
@@ -117,7 +108,11 @@ public class LaunchManager : MonoBehaviour
     }
     private void ShowResults(string roomName)
     {
-        List<Data> resultsFromSpecficRoom = this.resultList.Where(n => n.RoomName == roomName).OrderBy(t => t.Time).Take(10).ToList();
+        List<Data> resultsFromSpecficRoom = this.resultList
+            .Where(n => n.RoomName == roomName)
+            .OrderBy(t => t.Time)
+            .Take(10)
+            .ToList();
 
         Text positionText = GameObject.Find("UiPositionText").GetComponent<Text>();
         Text timeText = GameObject.Find("UiTimeText").GetComponent<Text>();
@@ -132,7 +127,6 @@ public class LaunchManager : MonoBehaviour
         foreach (Data result in resultsFromSpecficRoom)
         {
             TimeSpan time = TimeSpan.FromSeconds(result.Time);
-            //string row = count + ". " + time.ToString(@"mm\:ss\:fff") + "; " + result.PlayerName;
 
             positionText.text = positionText.text + count + ". " + "\n";
             timeText.text = timeText.text + time.ToString(@"mm\:ss\:fff") + "\n";

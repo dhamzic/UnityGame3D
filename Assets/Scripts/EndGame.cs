@@ -40,7 +40,7 @@ public class EndGame : MonoBehaviour
         pc.enabled = false;
 
         Stopwatch bsa = GameObject.Find("UiStopwatch").GetComponent<Stopwatch>();
-        bsa.StopTimer();
+        bsa.StopStopwatch();
 
         StoreData(bsa.currentTime);
 

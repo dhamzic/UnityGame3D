@@ -13,7 +13,7 @@ public class Item
         Book
     }
     public ItemType itemType;
-    public string description;
+    public string actionKey;
     public Texture inventoryImage;
     public int id;
 

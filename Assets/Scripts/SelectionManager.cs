@@ -211,7 +211,7 @@ namespace Assets.Scripts
                 //Udaljenost od fokusiranog objekta
                 if (hit.distance <= 6)
                 {
-                    Debug.Log("Objekt je fokusiran: " + hit.transform.name);
+                    //Debug.Log("Objekt je fokusiran: " + hit.transform.name);
 
                     //Prikaži tekst manipulacije objekta
                     if (UiInventoryCanvas.activeInHierarchy == false)
@@ -333,11 +333,17 @@ namespace Assets.Scripts
                                 //Objekti koji se skupljaju u Inventory
                                 case "ObjectSelectable_Inventory":
                                     {
-                                        inventory.AddItem(new Item { itemType = hit.transform.GetComponent<ItemWorld>().itemType, description = this.inventoryItemId.ToString(), inventoryImage = hit.transform.GetComponent<ItemWorld>().inventoryImage, id = hit.transform.GetComponent<ItemWorld>().id });
+                                        inventory.AddItem(new Item
+                                        {
+                                            itemType = hit.transform.GetComponent<ItemWorld>().itemType,
+                                            actionKey = this.inventoryItemId.ToString(),
+                                            inventoryImage = hit.transform.GetComponent<ItemWorld>().inventoryImage,
+                                            id = hit.transform.GetComponent<ItemWorld>().id
+                                        });
                                         //Nakon što je objekt prikupljen potrebno ga je uništiti iz scene
                                         Destroy(hit.transform.gameObject);
                                         //Osvježi inventory kako bi prikazao novo prikupljeni objekt
-                                        uiInventory.RefreshInventoryItems();
+                                        //uiInventory.RefreshInventoryItems();
                                         this.inventoryItemId++;
                                         //Ugasi svjetlo u ladici
                                         if (hit.transform.name == "SvahiliNote")
@@ -554,7 +560,7 @@ namespace Assets.Scripts
 
         private void InventoryKeyManipulation(string number)
         {
-            Item selectedItem = this.inventory.GetItemList().Where(id => id.description == number).FirstOrDefault();
+            Item selectedItem = this.inventory.GetItemList().Where(id => id.actionKey == number).FirstOrDefault();
 
             if (selectedItem != null)
             {

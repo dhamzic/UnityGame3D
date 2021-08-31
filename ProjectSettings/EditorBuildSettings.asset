@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Caesar's room.unity
     guid: ea6499e2dabf92644803a3c06a723261
+  - enabled: 1
+    path: Assets/Scenes/Room2.unity
+    guid: 4e7b5ea7b9137294c9912bddee66a25b
   m_configObjects: {}
