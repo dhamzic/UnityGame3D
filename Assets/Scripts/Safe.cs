@@ -21,4 +21,19 @@ namespace Assets.Scripts
             return correct;
         }
     }
+    public static class PassMachine
+    {
+        public static string Password = "9621";
+
+        public static bool CheckPassword(string insertedPassword)
+        {
+            bool correct = false;
+
+            if (insertedPassword == Password)
+            {
+                correct = true;
+            }
+            return correct;
+        }
+    }
 }

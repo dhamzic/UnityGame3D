@@ -20,4 +20,6 @@ public class ItemAssets : MonoBehaviour
     public Sprite CassetteTapeSprite;
     public Sprite SvahiliNoteSprite;
     public Sprite BookSprite;
+    public Sprite RemoteControlSprite;
+
 }

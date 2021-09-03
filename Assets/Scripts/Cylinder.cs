@@ -7,6 +7,8 @@ public class Cylinder : MonoBehaviour
     public GameObject cylinder;
     public char ExpectedCube;
     public bool match = false;
+    public AudioSource ImpactSound;
+    bool soundPlayed = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,13 +24,16 @@ public class Cylinder : MonoBehaviour
     {
         if (other.tag == "ObjectSelectable_Cube")
         {
+            if (soundPlayed == false) {
+                ImpactSound.Play();
+                soundPlayed = true;
+            }
             Light sl = cylinder.transform.Find("Point Light").GetComponent<Light>();
             sl.intensity = 4;
             if (ExpectedCube == other.name[5])
             {
                 this.match = true;
             }
-            //Destroy(other.GetComponent<Rigidbody>());
         }
     }
     void OnTriggerExit(Collider other)
@@ -39,6 +44,7 @@ public class Cylinder : MonoBehaviour
             Light sl = cylinder.transform.Find("Point Light").GetComponent<Light>();
             sl.intensity = 0;
             this.match = false;
+            soundPlayed = false;
         }
     }
 }

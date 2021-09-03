@@ -6,12 +6,6 @@ public class Scaler : MonoBehaviour
 {
     private float mSize = 0.0f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     public void DropRope()
     {
         //Svakih 0.04s pomakni za 1 blend shape 

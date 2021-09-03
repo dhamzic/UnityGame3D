@@ -13,7 +13,7 @@ public class EndGame : MonoBehaviour
     GameObject player;
     GameObject endGamePanel;
 
-
+    public AudioSource endGameSound;
 
 
     // Start is called before the first frame update
@@ -32,6 +32,8 @@ public class EndGame : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        endGameSound.Play();
+
         FPController D = player.GetComponent<FPController>();
         D.gameEnded = true;
         D.enabled = false;

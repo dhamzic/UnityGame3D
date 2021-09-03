@@ -10,7 +10,8 @@ public class Item
         Sunglasses,
         CassetteTape,
         SvahiliNote,
-        Book
+        Book,
+        RemoteControl
     }
     public ItemType itemType;
     public string actionKey;
@@ -29,6 +30,7 @@ public class Item
             case ItemType.CassetteTape: return ItemAssets.Instance.CassetteTapeSprite;
             case ItemType.SvahiliNote: return ItemAssets.Instance.SvahiliNoteSprite;
             case ItemType.Book: return ItemAssets.Instance.BookSprite;
+            case ItemType.RemoteControl: return ItemAssets.Instance.RemoteControlSprite;
         }
     }
 

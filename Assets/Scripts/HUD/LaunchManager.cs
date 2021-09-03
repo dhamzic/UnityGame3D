@@ -49,7 +49,7 @@ public class LaunchManager : MonoBehaviour
         };
         Room room2 = new Room()
         {
-            Name = "NoName room",
+            Name = "Morse's room",
             Logo = Resources.Load("Room2_Image", typeof(Sprite)) as Sprite
         };
         listOfRooms.Add(room1);
@@ -92,7 +92,7 @@ public class LaunchManager : MonoBehaviour
 
     public void ConnectNewScene()
     {
-        SceneManager.LoadScene("Caesar's room");
+        SceneManager.LoadScene(this.listOfRooms[currentListIndex].Name);
     }
 
     public void LoadResultsFromMemory()

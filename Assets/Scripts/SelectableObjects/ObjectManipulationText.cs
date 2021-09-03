@@ -44,7 +44,7 @@ namespace Assets.Scripts.SelectableObjects
                     }
                 case "ObjectSelectable_Door":
                     {
-                        text = "Press E To Open Door";
+                        //text = "Press E To Open Door";
                         if (objectName == "Door")
                         {
                             GameObject door = GameObject.Find(objectName);
@@ -73,41 +73,46 @@ namespace Assets.Scripts.SelectableObjects
                         }
                         break;
                     }
+                case "ObjectSelectable_Cube":
+                    {
+                        text = "Press E To Pick Up Cube";
+                        break;
+                    }
                 default:
                     break;
             }
             currentManipulationText.text = text;
         }
-    public IEnumerator ShowWarningText(string text)
-    {
-        warningText.text = text;
-        yield return new WaitForSeconds(1f);
-        StartCoroutine(FadeTextToZeroAlpha());
-        yield return new WaitForSeconds(1f);
-        this.warningText.text = "";
-        this.warningText.color = new Color(
-            this.warningText.color.r, 
-            this.warningText.color.g, 
-            this.warningText.color.b, 1);
-    }
-    public IEnumerator FadeTextToZeroAlpha()
-    {
-        //Alpha==1
-        this.warningText.color = new Color(
-            this.warningText.color.r, 
-            this.warningText.color.g, 
-            this.warningText.color.b, 1);
-
-        //Smanjuje do 0
-        while (this.warningText.color.a > 0.0f)
+        public IEnumerator ShowWarningText(string text)
         {
+            warningText.text = text;
+            yield return new WaitForSeconds(1f);
+            StartCoroutine(FadeTextToZeroAlpha());
+            yield return new WaitForSeconds(1f);
+            this.warningText.text = "";
             this.warningText.color = new Color(
-                this.warningText.color.r, 
-                this.warningText.color.g, 
-                this.warningText.color.b, 
-                this.warningText.color.a - (Time.deltaTime / 1));
-            yield return null;
+                this.warningText.color.r,
+                this.warningText.color.g,
+                this.warningText.color.b, 1);
         }
-    }
+        public IEnumerator FadeTextToZeroAlpha()
+        {
+            //Alpha==1
+            this.warningText.color = new Color(
+                this.warningText.color.r,
+                this.warningText.color.g,
+                this.warningText.color.b, 1);
+
+            //Smanjuje do 0
+            while (this.warningText.color.a > 0.0f)
+            {
+                this.warningText.color = new Color(
+                    this.warningText.color.r,
+                    this.warningText.color.g,
+                    this.warningText.color.b,
+                    this.warningText.color.a - (Time.deltaTime / 1));
+                yield return null;
+            }
+        }
     }
 }

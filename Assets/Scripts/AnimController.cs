@@ -64,7 +64,8 @@ public class AnimController : MonoBehaviour
         anim.Play("Drawer4_Close");
     }
 
-    public void StartBookShelfAnimation() {
+    public void StartBookShelfAnimation()
+    {
         anim.Play("BookShelfOpen");
         Debug.Log("BookShelf Animation");
     }
@@ -93,6 +94,10 @@ public class AnimController : MonoBehaviour
     public void PressButton(string buttonNumber)
     {
         anim.Play("PressButton_" + buttonNumber);
+    }
+    public void OpenCubeDrawerRoom2()
+    {
+        anim.Play("DrawerCube_Open_1");
     }
     public void StartDrawerAnimation(string drawerName)
     {

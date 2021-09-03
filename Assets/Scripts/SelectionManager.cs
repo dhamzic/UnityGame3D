@@ -12,6 +12,21 @@ namespace Assets.Scripts
 {
     public class SelectionManager : MonoBehaviour
     {
+        public AudioSource InventoryPickUp;
+        public AudioSource UnlockSound;
+        public AudioSource DrawerSound;
+        public AudioSource DoorOpenSound;
+        public AudioSource InventorySound;
+        public AudioSource ButtonSound;
+        public AudioSource SafeOpenSound;
+        public AudioSource WoodImpactSound;
+        public AudioSource BookshelfSound;
+        public AudioSource SwitchSound;
+        public AudioSource CubeRaiseSound;
+
+
+
+
         [SerializeField] private string selectableTag = "ObjectSelectable";
 
         [SerializeField] private Material highlightMaterial;
@@ -57,7 +72,7 @@ namespace Assets.Scripts
         bool objectRaised = false;
         private GameObject raisedObject = null;
 
-
+        bool cubeDrawerOpened = false;
         private void Awake()
         {
             inventory = new Inventory();
@@ -161,6 +176,7 @@ namespace Assets.Scripts
             //Korištenje Inventory-a
             if (Input.GetKeyDown("i"))
             {
+                InventorySound.Play();
                 if (UiInventoryCanvas.activeInHierarchy == true)
                 {
                     UiInventoryCanvas.SetActive(false);
@@ -243,31 +259,11 @@ namespace Assets.Scripts
                         {
                             switch (hit.transform.tag)
                             {
-                                case "ObjectSelectable_Door":
-                                    {
-                                        //AnimController ac = GameObject.Find("Door").GetComponent<AnimController>();
-                                        //ac.StartDoorAnimation(hit.transform.name);
-                                        //break;
-                                        //AnimController ac1 = GameObject.Find("WallNorth").GetComponent<AnimController>();
-                                        //ac1.StartDoorAnimation();
-
-                                        //Provjera jesu li vrata otključana
-                                        //Ako jesu, pokreni animaciju otvaranja
-                                        if (DoorUnLocked)
-                                        {
-                                            AnimController ac1 = GameObject.Find("WallNorth").GetComponent<AnimController>();
-                                            ac1.StartDoorAnimation();
-                                        }
-                                        else
-                                        {
-                                            Debug.Log("Door is locked.");
-                                        }
-                                        break;
-                                    }
                                 case "ObjectSelectable_Switch":
                                     {
                                         AnimController ac = GameObject.Find("Switch").GetComponent<AnimController>();
                                         ac.StartSwitchAnimation(this.switchTurnedOn);
+                                        SwitchSound.Play();
 
                                         //Ukoliko je prekidač pritisnut tj. svjetlo upaljeno
                                         if (this.switchTurnedOn)
@@ -311,11 +307,17 @@ namespace Assets.Scripts
                                     {
                                         if (hit.transform.name.Contains("Cube"))
                                         {
-                                            //Upali svjetlo u ladici da se bolje vidi papirić koji se tamo nalazi
-                                            AnimController ac = GameObject.Find("DrawerCube").GetComponent<AnimController>();
-                                            ac.StartDrawerAnimation(hit.transform.name);
-                                            Light sl = GameObject.Find("DrawerCubeChildLight").GetComponent<Light>();
-                                            sl.intensity = 1.2f;
+
+                                            if (cubeDrawerOpened==false)
+                                            {
+                                                //Upali svjetlo u ladici da se bolje vidi papirić koji se tamo nalazi
+                                                AnimController ac = GameObject.Find("DrawerCube").GetComponent<AnimController>();
+                                                ac.StartDrawerAnimation(hit.transform.name);
+                                                DrawerSound.Play();
+                                                Light sl = GameObject.Find("DrawerCubeChildLight").GetComponent<Light>();
+                                                sl.intensity = 1.2f;
+                                                cubeDrawerOpened = true; 
+                                            }
                                             break;
                                         }
                                         //Provjera je li ormarić zaključan
@@ -323,6 +325,7 @@ namespace Assets.Scripts
                                         {
                                             AnimController ac = GameObject.Find("CurvedDrawer").GetComponent<AnimController>();
                                             ac.StartDrawerAnimation(hit.transform.name);
+                                            DrawerSound.Play();
                                         }
                                         else
                                         {
@@ -340,6 +343,7 @@ namespace Assets.Scripts
                                             inventoryImage = hit.transform.GetComponent<ItemWorld>().inventoryImage,
                                             id = hit.transform.GetComponent<ItemWorld>().id
                                         });
+                                        InventoryPickUp.Play();
                                         //Nakon što je objekt prikupljen potrebno ga je uništiti iz scene
                                         Destroy(hit.transform.gameObject);
                                         //Osvježi inventory kako bi prikazao novo prikupljeni objekt
@@ -369,6 +373,7 @@ namespace Assets.Scripts
                                         //objektSlike.transform.localEulerAngles = new Vector3(0, 0, 30);
                                         objektSlike.transform.parent = null;
                                         objektSlike.tag = "Untagged";
+                                        WoodImpactSound.PlayDelayed(1);
                                         break;
                                     }
                                 case "ObjectSelectable_Cube":
@@ -394,7 +399,7 @@ namespace Assets.Scripts
                                             //selectedCube.GetComponent<BoxCollider>().enabled = false;
                                             objectRaised = true;
                                             raisedObject = selectedCube;
-
+                                            CubeRaiseSound.Play();
                                             //Pričekaj da se kocka digne pa tek onda ugasi collider
                                             //Razlog tome je što cilindar za detektiranje kolizije
                                             //ne prepoznaje da je objekt maknut sa istog ukoliko ne postoji collider
@@ -438,6 +443,7 @@ namespace Assets.Scripts
                                         if (safeIsOpened == false)
                                         {
                                             //Pokreni animaciju tipke sefa
+                                            ButtonSound.Play();
                                             AnimController ac = GameObject.Find("WallWithSafe").GetComponent<AnimController>();
                                             ac.PressButton(hit.transform.name[hit.transform.name.Length - 1].ToString());
 
@@ -458,10 +464,10 @@ namespace Assets.Scripts
                                                 if (validPass)
                                                 {
                                                     Light l = GameObject.Find("SuccessLight").GetComponent<Light>();
-                                                    l.intensity = 3;
+                                                    l.intensity = 11;
 
                                                     Debug.Log("Pass is valid: " + this.safePassword);
-
+                                                    SafeOpenSound.Play();
                                                     ac.OpenSafe();
                                                     safeIsOpened = true;
                                                     Light sl = GameObject.Find("SafeLight").GetComponent<Light>();
@@ -470,7 +476,9 @@ namespace Assets.Scripts
                                                 //Ako lozinka nije ispravna, upali crveno svjetlo
                                                 else
                                                 {
-                                                    ul.intensity = 3;
+                                                    ul.intensity = 11;
+
+                                                    StartCoroutine(objectManipulation.ShowWarningText("Invalid Password!"));
 
                                                     Debug.Log("Pass is invalid: " + this.safePassword);
                                                 }
@@ -548,6 +556,7 @@ namespace Assets.Scripts
 
                     AnimController bsa = GameObject.Find("Bookshelf").GetComponent<AnimController>();
                     bsa.StartBookShelfAnimation();
+                    BookshelfSound.PlayDelayed(0.5f);
                     GameObject d = GameObject.Find("Door");
                     d.tag = "ObjectSelectable_Door";
                     //TODO: Provjera ključa za izlaz
@@ -572,6 +581,7 @@ namespace Assets.Scripts
                         {
                             if (selectedItem.id == 11)
                             {
+                                UnlockSound.Play();
                                 //_selection.GetComponent<BoxCollider>().enabled = false;
                                 this.CurvedDrawerUnLocked = true;
                                 SelectableObject selectedObject = GameObject.Find("CurvedDrawer").GetComponent<SelectableObject>();
@@ -589,12 +599,16 @@ namespace Assets.Scripts
                         {
                             if (selectedItem.id == 22)
                             {
+                                UnlockSound.Play();
                                 this.DoorUnLocked = true;
                                 SelectableObject selectedObject = GameObject.Find("Door").GetComponent<SelectableObject>();
                                 selectedObject.locked = false;
                                 Debug.Log("Door is unlocked.");
                                 inventory.RemoveItem(selectedItem);
                                 StartCoroutine(objectManipulation.ShowWarningText("Get Out!"));
+                                AnimController ac1 = GameObject.Find("WallNorth").GetComponent<AnimController>();
+                                ac1.StartDoorAnimation();
+                                DoorOpenSound.Play();
                             }
                             else
                             {

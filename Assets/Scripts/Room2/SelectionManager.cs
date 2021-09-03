@@ -41,6 +41,10 @@ namespace Assets.Scripts.Room2
         public GameObject trenutniRoditelj;
         public Transform trenutniRoditeljManevriranje;
 
+        private GameObject RemoteControlCanvas;
+        private GameObject RemoteControl;
+
+        private bool DrawerUnlocked = false;
 
         #region Safe
         string safePassword = "";
@@ -58,6 +62,8 @@ namespace Assets.Scripts.Room2
         private bool ropeDroped = false;
         public GameObject ropeWithoutKey;
 
+        public Text remoteText;
+
 
         private void Awake()
         {
@@ -70,8 +76,10 @@ namespace Assets.Scripts.Room2
             UiInventoryCanvas = GameObject.Find("UiInventory");
             UiInventoryCanvas.SetActive(false);
 
-            UiInventoryRead = GameObject.Find("UiInventoryRead");
-            UiInventoryRead.SetActive(false);
+            RemoteControlCanvas = GameObject.Find("UiRemoteControllerCanvas");
+            RemoteControlCanvas.SetActive(false);
+
+            RemoteControl = GameObject.Find("RemoteControl");
 
             MorseButton = GameObject.Find("Button");
         }
@@ -96,7 +104,8 @@ namespace Assets.Scripts.Room2
             cylinder_4 = c4.GetComponent<Cylinder>();
             #endregion
 
-            InvokeRepeating("PositionCylinder", 0.0f, 0.00002f);
+            //TODO
+            //InvokeRepeating("PositionCylinder", 0.0f, 0.00002f);
         }
         public IEnumerator WaitCubeDrop()
         {
@@ -125,7 +134,14 @@ namespace Assets.Scripts.Room2
         void Position()
         {
             GameObject cube = GameObject.Find("Cube");
-            cube.transform.position = new Vector3(cube.transform.position.x - 0.003f, cube.transform.position.y, cube.transform.position.z);
+            if (cube.transform.position.x > -14.75f)
+            {
+                cube.transform.position = new Vector3(cube.transform.position.x - 0.003f, cube.transform.position.y, cube.transform.position.z);
+            }
+            else
+            {
+                CancelInvoke("Position");
+            }
         }
         void PositionCylinder()
         {
@@ -133,6 +149,10 @@ namespace Assets.Scripts.Room2
             if (cylinder.transform.position.y <= 1.56f)
             {
                 cylinder.transform.position = new Vector3(cylinder.transform.position.x, cylinder.transform.position.y + 0.003f, cylinder.transform.position.z);
+            }
+            else
+            {
+                CancelInvoke("PositionCylinder");
             }
         }
 
@@ -251,22 +271,6 @@ namespace Assets.Scripts.Room2
                         {
                             switch (hit.transform.tag)
                             {
-                                case "ObjectSelectable_Door":
-                                    {
-                                        //AnimController ac = GameObject.Find("Door").GetComponent<AnimController>();
-                                        //ac.StartDoorAnimation(hit.transform.name);
-                                        //break;
-                                        //AnimController ac1 = GameObject.Find("WallNorth").GetComponent<AnimController>();
-                                        //ac1.StartDoorAnimation();
-
-                                        //Provjera jesu li vrata otključana
-                                        //Ako jesu, pokreni animaciju otvaranja
-
-                                        AnimController ac1 = GameObject.Find("WallWestNorth").GetComponent<AnimController>();
-                                        ac1.StartDoorAnimation();
-
-                                        break;
-                                    }
                                 case "ObjectSelectable_Switch":
                                     {
                                         AnimController ac = GameObject.Find("Switch").GetComponent<AnimController>();
@@ -289,29 +293,6 @@ namespace Assets.Scripts.Room2
                                         {
 
                                         }
-                                        break;
-                                    }
-                                case "ObjectSelectable_Drawer":
-                                    {
-                                        if (hit.transform.name.Contains("Cube"))
-                                        {
-                                            //Upali svjetlo u ladici da se bolje vidi papirić koji se tamo nalazi
-                                            AnimController ac = GameObject.Find("DrawerCube").GetComponent<AnimController>();
-                                            ac.StartDrawerAnimation(hit.transform.name);
-                                            Light sl = GameObject.Find("DrawerCubeChildLight").GetComponent<Light>();
-                                            sl.intensity = 1.2f;
-                                            break;
-                                        }
-                                        //Provjera je li ormarić zaključan
-                                        //if (CurvedDrawerUnLocked)
-                                        //{
-                                        //    AnimController ac = GameObject.Find("CurvedDrawer").GetComponent<AnimController>();
-                                        //    ac.StartDrawerAnimation(hit.transform.name);
-                                        //}
-                                        //else
-                                        //{
-                                        //    Debug.Log("Drawer is locked.");
-                                        //}
                                         break;
                                     }
                                 //Objekti koji se skupljaju u Inventory
@@ -432,7 +413,7 @@ namespace Assets.Scripts.Room2
                                             }
                                             if (this.safePassword.Length == 4)
                                             {
-                                                bool validPass = Safe.CheckPassword(this.safePassword);
+                                                bool validPass = PassMachine.CheckPassword(this.safePassword);
                                                 //Ako je ispravna lozinka, upali zeleno svjetlo
                                                 if (validPass)
                                                 {
@@ -440,8 +421,12 @@ namespace Assets.Scripts.Room2
                                                     l.intensity = 3;
 
                                                     Debug.Log("Pass is valid: " + this.safePassword);
+                                                    AnimController acd = GameObject.Find("DrawerCube").GetComponent<AnimController>();
+                                                    acd.OpenCubeDrawerRoom2();
+                                                    Light sl = GameObject.Find("DrawerCubeChildLight").GetComponent<Light>();
+                                                    sl.intensity = 1.2f;
+                                                    RemoteControl.tag = "ObjectSelectable_Inventory";
 
-                                                    
                                                 }
                                                 //Ako lozinka nije ispravna, upali crveno svjetlo
                                                 else
@@ -478,6 +463,20 @@ namespace Assets.Scripts.Room2
             #region Inventory korištenje
             if (Input.GetKeyDown("1"))
             {
+                //GameObject mainCamera = GameObject.FindWithTag("MainCamera");
+                //GameObject player = GameObject.Find("FPC");
+                //FPController D = player.GetComponent<FPController>();
+                //D.gameEnded = true;
+                //D.enabled = false;
+
+                //PlayerControls pc = mainCamera.GetComponent<PlayerControls>();
+                //pc.enabled = false;
+
+                //RemoteControlCanvas.SetActive(true);
+
+                //Cursor.visible = true;
+                //Cursor.lockState = CursorLockMode.None;
+
                 if (UiInventoryCanvas.activeInHierarchy == true)
                 {
                     InventoryKeyManipulation("1");
@@ -506,10 +505,25 @@ namespace Assets.Scripts.Room2
             }
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Cursor.visible = false;
-                UiInventoryRead.SetActive(false);
+                RemoveRemoteCanvas();
             }
             #endregion
+        }
+
+        private void RemoveRemoteCanvas()
+        {
+            GameObject mainCamera = GameObject.FindWithTag("MainCamera");
+            GameObject player = GameObject.Find("FPC");
+            FPController D = player.GetComponent<FPController>();
+            D.enabled = true;
+
+            PlayerControls pc = mainCamera.GetComponent<PlayerControls>();
+            pc.enabled = true;
+
+            RemoteControlCanvas.SetActive(false);
+
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.None;
         }
 
         private void CubeCylinderMatch()
@@ -539,6 +553,45 @@ namespace Assets.Scripts.Room2
 
         }
 
+        static string remotePassword = "385";
+        static string currentRemotePassword = "";
+        private bool CheckRemotePass(string insertedPassword)
+        {
+            bool correct = false;
+
+            if (insertedPassword == remotePassword)
+            {
+                correct = true;
+            }
+            return correct;
+        }
+        public void PressButtonOpenEvent()
+        {
+            bool validPass = CheckRemotePass(currentRemotePassword);
+
+            if (validPass)
+            {
+                Debug.Log("Ispravna lozinka");
+                InvokeRepeating("PositionCylinder", 0.0f, 0.001f);
+                RemoveRemoteCanvas();
+                inventory.RemoveItem(this.inventory.GetItemList().Where(id => id.itemType == Item.ItemType.RemoteControl).FirstOrDefault());
+            }
+            else
+            {
+                StartCoroutine(objectManipulation.ShowWarningText("Password Is Incorrect!"));
+            }
+
+            currentRemotePassword = "";
+            remoteText.text = currentRemotePassword;
+        }
+        public void PressButtonEvent(int number)
+        {
+            if (currentRemotePassword.Length < 3)
+            {
+                currentRemotePassword = currentRemotePassword + number.ToString();
+                remoteText.text = currentRemotePassword;
+            }
+        }
 
         private void InventoryKeyManipulation(string number)
         {
@@ -583,6 +636,8 @@ namespace Assets.Scripts.Room2
                                 Debug.Log("Door is unlocked.");
                                 inventory.RemoveItem(selectedItem);
                                 StartCoroutine(objectManipulation.ShowWarningText("Get Out!"));
+                                AnimController ac1 = GameObject.Find("WallWestNorth").GetComponent<AnimController>();
+                                ac1.StartDoorAnimation();
                             }
                             else
                             {
@@ -591,11 +646,21 @@ namespace Assets.Scripts.Room2
                         }
                     }
                 }
-                else
+                else if (selectedItem.itemType == Item.ItemType.RemoteControl)
                 {
-                    UiInventoryRead.SetActive(true);
-                    Transform rawImage = UiInventoryRead.transform.GetChild(0).GetChild(0);
-                    rawImage.GetComponent<RawImage>().texture = selectedItem.inventoryImage;
+
+                    GameObject mainCamera = GameObject.FindWithTag("MainCamera");
+                    GameObject player = GameObject.Find("FPC");
+                    FPController D = player.GetComponent<FPController>();
+                    D.enabled = false;
+
+                    PlayerControls pc = mainCamera.GetComponent<PlayerControls>();
+                    pc.enabled = false;
+
+                    RemoteControlCanvas.SetActive(true);
+
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
                 }
 
             }
