@@ -12,6 +12,15 @@ namespace Assets.Scripts.Room2
 {
     public class SelectionManager : MonoBehaviour
     {
+        public AudioSource InventoryPickUp;
+        public AudioSource UnlockSound;
+        public AudioSource DrawerSound;
+        public AudioSource DoorOpenSound;
+        public AudioSource InventorySound;
+        public AudioSource ButtonSound;
+        public AudioSource SwitchSound;
+        public AudioSource CubeRaiseSound;
+
         public AudioSource morseCodeSound;
         [SerializeField] private string selectableTag = "ObjectSelectable";
 
@@ -104,8 +113,6 @@ namespace Assets.Scripts.Room2
             cylinder_4 = c4.GetComponent<Cylinder>();
             #endregion
 
-            //TODO
-            //InvokeRepeating("PositionCylinder", 0.0f, 0.00002f);
         }
         public IEnumerator WaitCubeDrop()
         {
@@ -145,7 +152,7 @@ namespace Assets.Scripts.Room2
         }
         void PositionCylinder()
         {
-            GameObject cylinder = GameObject.Find("Cylinder");
+            GameObject cylinder = GameObject.Find("CylinderMiddle");
             if (cylinder.transform.position.y <= 1.56f)
             {
                 cylinder.transform.position = new Vector3(cylinder.transform.position.x, cylinder.transform.position.y + 0.003f, cylinder.transform.position.z);
@@ -153,6 +160,7 @@ namespace Assets.Scripts.Room2
             else
             {
                 CancelInvoke("PositionCylinder");
+                Debug.Log("CancelInvoke");
             }
         }
 
@@ -189,6 +197,7 @@ namespace Assets.Scripts.Room2
             //Korištenje Inventory-a
             if (Input.GetKeyDown("i"))
             {
+                InventorySound.Play();
                 if (UiInventoryCanvas.activeInHierarchy == true)
                 {
                     UiInventoryCanvas.SetActive(false);
@@ -273,25 +282,22 @@ namespace Assets.Scripts.Room2
                             {
                                 case "ObjectSelectable_Switch":
                                     {
-                                        AnimController ac = GameObject.Find("Switch").GetComponent<AnimController>();
-                                        ac.StartSwitchAnimation(this.switchTurnedOn);
-                                        InvokeRepeating("Position", 0.0f, 0.00002f);
-                                        hit.transform.tag = "Untagged";
-                                        GameObject cube = GameObject.Find("Cube_Red");
-                                        cube.tag = "ObjectSelectable_Cube";
-                                        cube = GameObject.Find("Cube_Blue");
-                                        cube.tag = "ObjectSelectable_Cube";
-                                        cube = GameObject.Find("Cube_Green");
-                                        cube.tag = "ObjectSelectable_Cube";
-                                        cube = GameObject.Find("Cube_Orange");
-                                        cube.tag = "ObjectSelectable_Cube";
-                                        break;
-                                    }
-                                case "ObjectSelectable_Keyhole":
-                                    {
-                                        if (KeyHoleUnlocked)
+                                        if (this.switchTurnedOn == false)
                                         {
-
+                                            AnimController ac = GameObject.Find("Switch").GetComponent<AnimController>();
+                                            ac.StartSwitchAnimation(this.switchTurnedOn);
+                                            SwitchSound.Play();
+                                            InvokeRepeating("Position", 0.0f, 0.00002f);
+                                            hit.transform.tag = "Untagged";
+                                            GameObject cube = GameObject.Find("Cube_Red");
+                                            cube.tag = "ObjectSelectable_Cube";
+                                            cube = GameObject.Find("Cube_Blue");
+                                            cube.tag = "ObjectSelectable_Cube";
+                                            cube = GameObject.Find("Cube_Green");
+                                            cube.tag = "ObjectSelectable_Cube";
+                                            cube = GameObject.Find("Cube_Orange");
+                                            cube.tag = "ObjectSelectable_Cube";
+                                            this.switchTurnedOn = true;
                                         }
                                         break;
                                     }
@@ -305,6 +311,7 @@ namespace Assets.Scripts.Room2
                                             inventoryImage = hit.transform.GetComponent<ItemWorld>().inventoryImage,
                                             id = hit.transform.GetComponent<ItemWorld>().id
                                         });
+                                        InventoryPickUp.Play();
                                         //Nakon što je objekt prikupljen potrebno ga je uništiti iz scene
                                         Destroy(hit.transform.gameObject);
 
@@ -316,12 +323,6 @@ namespace Assets.Scripts.Room2
                                         //Osvježi inventory kako bi prikazao novo prikupljeni objekt
                                         //uiInventory.RefreshInventoryItems();
                                         this.inventoryItemId++;
-                                        //Ugasi svjetlo u ladici
-                                        if (hit.transform.name == "SvahiliNote")
-                                        {
-                                            Light sl = GameObject.Find("DrawerCubeChildLight").GetComponent<Light>();
-                                            sl.intensity = 0;
-                                        }
                                         break;
                                     }
                                 case "ObjectSelectable_Cube":
@@ -347,7 +348,7 @@ namespace Assets.Scripts.Room2
                                             //selectedCube.GetComponent<BoxCollider>().enabled = false;
                                             objectRaised = true;
                                             raisedObject = selectedCube;
-
+                                            CubeRaiseSound.Play();
                                             //Pričekaj da se kocka digne pa tek onda ugasi collider
                                             //Razlog tome je što cilindar za detektiranje kolizije
                                             //ne prepoznaje da je objekt maknut sa istog ukoliko ne postoji collider
@@ -366,14 +367,6 @@ namespace Assets.Scripts.Room2
                                             ////Light sl = GameObject.Find("Point Light_1").GetComponent<Light>();
                                             ////sl.intensity = 4;
                                         }
-                                        break;
-                                    }
-                                case "ObjectSelectable_Readable":
-                                    {
-                                        UiInventoryRead.SetActive(true);
-                                        Transform rawImage = UiInventoryRead.transform.GetChild(0).GetChild(0);
-                                        ItemWorld iw = hit.transform.GetComponent<ItemWorld>();
-                                        rawImage.GetComponent<RawImage>().texture = iw.inventoryImage;
                                         break;
                                     }
                                 case "ObjectSelectable_Button":
@@ -397,6 +390,7 @@ namespace Assets.Scripts.Room2
                                     {
                                         if (safeIsOpened == false)
                                         {
+                                            ButtonSound.Play();
                                             //Pokreni animaciju tipke sefa
                                             AnimController ac = GameObject.Find("PassMachine").GetComponent<AnimController>();
                                             ac.PressButton(hit.transform.name[hit.transform.name.Length - 1].ToString());
@@ -418,11 +412,12 @@ namespace Assets.Scripts.Room2
                                                 if (validPass)
                                                 {
                                                     Light l = GameObject.Find("SuccessLight").GetComponent<Light>();
-                                                    l.intensity = 3;
+                                                    l.intensity = 11;
 
                                                     Debug.Log("Pass is valid: " + this.safePassword);
                                                     AnimController acd = GameObject.Find("DrawerCube").GetComponent<AnimController>();
                                                     acd.OpenCubeDrawerRoom2();
+                                                    DrawerSound.Play();
                                                     Light sl = GameObject.Find("DrawerCubeChildLight").GetComponent<Light>();
                                                     sl.intensity = 1.2f;
                                                     RemoteControl.tag = "ObjectSelectable_Inventory";
@@ -431,8 +426,8 @@ namespace Assets.Scripts.Room2
                                                 //Ako lozinka nije ispravna, upali crveno svjetlo
                                                 else
                                                 {
-                                                    ul.intensity = 3;
-
+                                                    ul.intensity = 11;
+                                                    StartCoroutine(objectManipulation.ShowWarningText("Invalid Password!"));
                                                     Debug.Log("Pass is invalid: " + this.safePassword);
                                                 }
                                                 this.safePassword = "";
@@ -567,6 +562,7 @@ namespace Assets.Scripts.Room2
         }
         public void PressButtonOpenEvent()
         {
+            ButtonSound.Play();
             bool validPass = CheckRemotePass(currentRemotePassword);
 
             if (validPass)
@@ -578,7 +574,7 @@ namespace Assets.Scripts.Room2
             }
             else
             {
-                StartCoroutine(objectManipulation.ShowWarningText("Password Is Incorrect!"));
+                StartCoroutine(objectManipulation.ShowWarningText("Invalid Password!"));
             }
 
             currentRemotePassword = "";
@@ -588,6 +584,7 @@ namespace Assets.Scripts.Room2
         {
             if (currentRemotePassword.Length < 3)
             {
+                ButtonSound.Play();
                 currentRemotePassword = currentRemotePassword + number.ToString();
                 remoteText.text = currentRemotePassword;
             }
@@ -607,6 +604,7 @@ namespace Assets.Scripts.Room2
                         {
                             if (selectedItem.id == 11)
                             {
+                                UnlockSound.Play();
                                 this.KeyHoleUnlocked = true;
                                 Debug.Log("Keyhole is unlocked.");
                                 inventory.RemoveItem(selectedItem);
@@ -630,6 +628,7 @@ namespace Assets.Scripts.Room2
                         {
                             if (selectedItem.id == 22)
                             {
+                                UnlockSound.Play();
                                 this.DoorUnLocked = true;
                                 SelectableObject selectedObject = GameObject.Find("Door").GetComponent<SelectableObject>();
                                 selectedObject.locked = false;
@@ -638,6 +637,7 @@ namespace Assets.Scripts.Room2
                                 StartCoroutine(objectManipulation.ShowWarningText("Get Out!"));
                                 AnimController ac1 = GameObject.Find("WallWestNorth").GetComponent<AnimController>();
                                 ac1.StartDoorAnimation();
+                                DoorOpenSound.Play();
                             }
                             else
                             {

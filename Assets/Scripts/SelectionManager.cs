@@ -298,7 +298,7 @@ namespace Assets.Scripts
                                                 wallRenderer.sharedMaterials = materials;
 
                                                 Light sl = GameObject.Find("UvLamp").GetComponent<Light>();
-                                                sl.intensity = 0.5f;
+                                                sl.intensity = 10f;
                                             }
                                         }
                                         break;

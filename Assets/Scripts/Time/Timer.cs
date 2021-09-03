@@ -10,6 +10,9 @@ public class Timer : MonoBehaviour
     float currentTime;
     public int startMinutes;
     public Text currentTimeText;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +30,8 @@ public class Timer : MonoBehaviour
             currentTime = currentTime - Time.deltaTime;
             if (currentTime <= 0) {
                 StopTimer();
+                EndGame endGameScript = GameObject.Find("FloorExit").GetComponent<EndGame>();
+                endGameScript.GameOver("Time's Up!");
             }
         }
         TimeSpan time = TimeSpan.FromSeconds(currentTime);

@@ -42,6 +42,11 @@ namespace Assets.Scripts.SelectableObjects
                         text = "Press E To Read";
                         break;
                     }
+                case "ObjectSelectable_Keyhole":
+                    {
+                        text = "Shelf Is Locked. Press I To Check Your Inventory";
+                        break;
+                    }
                 case "ObjectSelectable_Door":
                     {
                         //text = "Press E To Open Door";

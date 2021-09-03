@@ -38,7 +38,7 @@ public class Cylinder : MonoBehaviour
     }
     void OnTriggerExit(Collider other)
     {
-        Debug.Log("OnTriggerExit: " + other.name);
+        //Debug.Log("OnTriggerExit: " + other.name);
         if (other.tag == "ObjectSelectable_Cube")
         {
             Light sl = cylinder.transform.Find("Point Light").GetComponent<Light>();

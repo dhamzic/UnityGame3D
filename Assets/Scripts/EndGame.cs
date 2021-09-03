@@ -15,6 +15,10 @@ public class EndGame : MonoBehaviour
 
     public AudioSource endGameSound;
 
+    private GameObject UiInventoryCanvas;
+    private GameObject UiInventoryRead;
+    private GameObject RemoteControlCanvas;
+
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +36,36 @@ public class EndGame : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        GameOver("You Escaped!");
+    }
+    public void GameOver(string title)
+    {
+        UiInventoryCanvas = GameObject.Find("UiInventory");
+        if (UiInventoryCanvas != null)
+        {
+            UiInventoryCanvas.SetActive(false);
+        }
+
+        if (SceneManager.GetActiveScene().name == "Morse's room")
+        {
+            RemoteControlCanvas = GameObject.Find("UiRemoteControllerCanvas");
+            if (RemoteControlCanvas != null)
+            {
+                RemoteControlCanvas.SetActive(false);
+            }
+        }
+        if (SceneManager.GetActiveScene().name == "Caesar's room")
+        {
+            UiInventoryRead = GameObject.Find("UiInventoryRead");
+            if (UiInventoryRead != null)
+            {
+                UiInventoryRead.SetActive(false);
+
+            }
+        }
+
+
+
         endGameSound.Play();
 
         FPController D = player.GetComponent<FPController>();
@@ -51,6 +85,8 @@ public class EndGame : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
+        Text textTitle = GameObject.Find("Text").GetComponent<Text>();
+        textTitle.text = title;
         Text timeText = GameObject.Find("UiTimeTxt").GetComponent<Text>();
         //Text rankText = GameObject.Find("UiRankTxt").GetComponent<Text>();
 
@@ -94,15 +130,16 @@ public class EndGame : MonoBehaviour
             name.text = PlayerPrefs.GetString("PlayerName");
             timeText.text = TimeSpan.FromSeconds(currentTime).ToString(@"mm\:ss\:fff");
         }
-        else {
+        else
+        {
             //U top 5 je trenutni rezultat. Obriši dodatni red
             position.text = "";
             name.text = "";
             timeText.text = "";
         }
 
-       
-        
+
+
 
         position = GameObject.Find("First").GetComponent<Text>();
         name = GameObject.Find("NameFirst").GetComponent<Text>();
